@@ -1,0 +1,406 @@
+# CLI Integration Patterns Template
+# Generic patterns for integrating with AI CLI tools
+
+metadata:
+  name: "CLI Integration Patterns"
+  version: "1.0"
+  description: "Technology-agnostic patterns for AI agent execution"
+  tags: ['cli', 'ai', 'automation', 'integration', 'patterns']
+
+# Generic CLI Patterns
+cli_basics:
+  description: "Basic patterns for any AI CLI tool"
+  
+  simple_execution:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}'"
+    examples:
+      - "claude -p 'Create a login component'"
+      - "openai prompt 'Write unit tests'"
+      - "custom-ai --task 'Refactor code'"
+  
+  with_options:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{OPTIONS}}"
+    examples:
+      - "ai-tool -p 'Task' --max-tokens 1000"
+      - "ai-tool prompt 'Task' --temperature 0.7"
+      - "ai-tool --task 'Task' --mode autonomous"
+  
+  output_capture:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' > output.txt"
+    examples:
+      - "ai-tool -p 'Task' > result.txt"
+      - "ai-tool -p 'Task' 2>&1 | tee output.log"
+      - "result=$(ai-tool -p 'Task')"
+
+# Session Management Patterns
+session_management:
+  description: "Patterns for managing AI sessions"
+  
+  new_session:
+    pattern: "{{AI_TOOL}} {{NEW_SESSION_FLAG}} '{{PROMPT}}'"
+    storage: "Save session ID for continuation"
+  
+  continue_session:
+    pattern: "{{AI_TOOL}} {{CONTINUE_FLAG}} {{SESSION_ID}} '{{PROMPT}}'"
+    note: "Continue from previous state"
+  
+  session_with_context:
+    pattern: |
+      {{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' \
+        {{CONTEXT_FLAG}} {{CONTEXT_FILE}}
+    note: "Provide additional context"
+
+# Permission and Safety Modes
+permission_modes:
+  description: "Different safety levels for AI execution"
+  
+  interactive:
+    description: "Requires user confirmation"
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{INTERACTIVE_FLAG}}"
+    use_case: "Development with human oversight"
+    safety_level: "Highest"
+  
+  semi_autonomous:
+    description: "Auto-approves safe operations"
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{SEMI_AUTO_FLAG}}"
+    use_case: "Trusted operations with some automation"
+    safety_level: "Medium"
+  
+  fully_autonomous:
+    description: "No confirmations required"
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{FULL_AUTO_FLAG}}"
+    use_case: "Production automation"
+    safety_level: "Requires trust and safeguards"
+    warning: "Ensure proper restrictions are in place"
+
+# Tool Restrictions
+tool_restrictions:
+  description: "Patterns for restricting AI capabilities"
+  
+  whitelist_approach:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{ALLOW_FLAG}} '{{ALLOWED_OPERATIONS}}'"
+    example: "ai-tool -p 'Task' --allow 'read,write,edit'"
+  
+  blacklist_approach:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{DENY_FLAG}} '{{DENIED_OPERATIONS}}'"
+    example: "ai-tool -p 'Task' --deny 'delete,push,deploy'"
+  
+  sandboxed_execution:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{SANDBOX_FLAG}}"
+    note: "Runs in isolated environment"
+
+# Execution Limits
+execution_limits:
+  description: "Patterns for limiting AI execution"
+  
+  time_limit:
+    pattern: "timeout {{SECONDS}} {{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}'"
+    example: "timeout 300 ai-tool -p 'Complex task'"
+  
+  iteration_limit:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{MAX_ITERATIONS}} {{NUMBER}}"
+    example: "ai-tool -p 'Task' --max-iterations 10"
+  
+  token_limit:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{MAX_TOKENS}} {{NUMBER}}"
+    example: "ai-tool -p 'Task' --max-tokens 4000"
+  
+  cost_limit:
+    pattern: "{{AI_TOOL}} {{PROMPT_FLAG}} '{{PROMPT}}' {{MAX_COST}} {{AMOUNT}}"
+    example: "ai-tool -p 'Task' --max-cost 1.00"
+
+# Common Execution Patterns
+execution_patterns:
+  # Sequential Pattern
+  sequential:
+    description: "Execute tasks one after another"
+    template: |
+      #!/bin/bash
+      TASKS=("{{TASK_1}}" "{{TASK_2}}" "{{TASK_3}}")
+      
+      for task in "${TASKS[@]}"; do
+        echo "Executing: $task"
+        {{AI_TOOL}} {{PROMPT_FLAG}} "$task"
+        
+        if [ $? -ne 0 ]; then
+          echo "Task failed: $task"
+          exit 1
+        fi
+      done
+  
+  # Parallel Pattern
+  parallel:
+    description: "Execute multiple tasks simultaneously"
+    template: |
+      #!/bin/bash
+      # Start multiple agents in parallel
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK_1}}" &
+      PID1=$!
+      
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK_2}}" &
+      PID2=$!
+      
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK_3}}" &
+      PID3=$!
+      
+      # Wait for all to complete
+      wait $PID1 $PID2 $PID3
+  
+  # Pipeline Pattern
+  pipeline:
+    description: "Chain tasks with output feeding to next"
+    template: |
+      #!/bin/bash
+      # First task generates output
+      OUTPUT1=$({{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK_1}}")
+      
+      # Second task uses first output
+      OUTPUT2=$({{AI_TOOL}} {{PROMPT_FLAG}} "Based on: $OUTPUT1, {{TASK_2}}")
+      
+      # Final task uses combined context
+      {{AI_TOOL}} {{PROMPT_FLAG}} "Complete with: $OUTPUT2, {{TASK_3}}"
+  
+  # Retry Pattern
+  retry:
+    description: "Retry on failure with backoff"
+    template: |
+      #!/bin/bash
+      MAX_RETRIES={{MAX_RETRIES}}
+      RETRY_COUNT=0
+      DELAY=5
+      
+      while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+        {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}"
+        
+        if [ $? -eq 0 ]; then
+          echo "Success!"
+          break
+        fi
+        
+        RETRY_COUNT=$((RETRY_COUNT + 1))
+        echo "Attempt $RETRY_COUNT failed, retrying in $DELAY seconds..."
+        sleep $DELAY
+        DELAY=$((DELAY * 2))  # Exponential backoff
+      done
+  
+  # Conditional Pattern
+  conditional:
+    description: "Execute based on conditions"
+    template: |
+      #!/bin/bash
+      # Check condition
+      if [[ "{{CONDITION}}" == "true" ]]; then
+        {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK_IF_TRUE}}"
+      else
+        {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK_IF_FALSE}}"
+      fi
+
+# Error Handling Patterns
+error_handling:
+  description: "Patterns for handling AI execution errors"
+  
+  basic_error_check:
+    template: |
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}"
+      EXIT_CODE=$?
+      
+      if [ $EXIT_CODE -ne 0 ]; then
+        echo "Error: Task failed with code $EXIT_CODE"
+        # Handle error
+      fi
+  
+  error_recovery:
+    template: |
+      # Try primary approach
+      if ! {{AI_TOOL}} {{PROMPT_FLAG}} "{{PRIMARY_TASK}}"; then
+        echo "Primary approach failed, trying fallback..."
+        {{AI_TOOL}} {{PROMPT_FLAG}} "{{FALLBACK_TASK}}"
+      fi
+  
+  error_logging:
+    template: |
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}" 2>&1 | tee -a error.log
+      
+      if [ ${PIPESTATUS[0]} -ne 0 ]; then
+        echo "$(date): Task failed" >> error-summary.log
+        # Send alert
+      fi
+
+# Monitoring Patterns
+monitoring:
+  description: "Patterns for monitoring AI execution"
+  
+  progress_tracking:
+    template: |
+      # Start background monitoring
+      (while true; do
+        check_progress
+        sleep 5
+      done) &
+      MONITOR_PID=$!
+      
+      # Execute task
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}"
+      
+      # Stop monitoring
+      kill $MONITOR_PID
+  
+  resource_monitoring:
+    template: |
+      # Monitor resource usage
+      (while true; do
+        ps aux | grep {{AI_TOOL}}
+        sleep 10
+      done) &
+      
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}"
+  
+  output_filtering:
+    template: |
+      # Filter output for important information
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}" 2>&1 | \
+        grep -E "(ERROR|WARNING|SUCCESS|COMPLETE)"
+
+# Integration Patterns
+integration:
+  with_version_control:
+    description: "Integrate with version control"
+    template: |
+      # Create branch
+      git checkout -b "ai-work-{{TIMESTAMP}}"
+      
+      # Execute AI task
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}"
+      
+      # Commit if successful
+      if [ $? -eq 0 ]; then
+        git add .
+        git commit -m "[AI] {{TASK_DESCRIPTION}}"
+      fi
+  
+  with_testing:
+    description: "Integrate with testing"
+    template: |
+      # Run AI task
+      {{AI_TOOL}} {{PROMPT_FLAG}} "{{IMPLEMENT_TASK}}"
+      
+      # Run tests
+      {{TEST_COMMAND}}
+      
+      if [ $? -ne 0 ]; then
+        echo "Tests failed, reverting changes..."
+        git checkout -- .
+      fi
+  
+  with_ci_cd:
+    description: "Integrate with CI/CD"
+    template: |
+      # CI/CD pipeline stage
+      - name: AI Task Execution
+        run: |
+          {{AI_TOOL}} {{PROMPT_FLAG}} "{{TASK}}" \
+            {{CI_OPTIONS}}
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+
+# Language-Specific Examples
+language_examples:
+  python:
+    execution: |
+      import subprocess
+      
+      def execute_ai_task(prompt):
+          result = subprocess.run(
+              ["{{AI_TOOL}}", "{{PROMPT_FLAG}}", prompt],
+              capture_output=True,
+              text=True
+          )
+          return result.stdout if result.returncode == 0 else None
+  
+  javascript:
+    execution: |
+      const { spawn } = require('child_process');
+      
+      function executeAITask(prompt) {
+          return new Promise((resolve, reject) => {
+              const ai = spawn('{{AI_TOOL}}', ['{{PROMPT_FLAG}}', prompt]);
+              let output = '';
+              
+              ai.stdout.on('data', (data) => {
+                  output += data;
+              });
+              
+              ai.on('close', (code) => {
+                  if (code === 0) resolve(output);
+                  else reject(new Error(`Exit code: ${code}`));
+              });
+          });
+      }
+  
+  go:
+    execution: |
+      package main
+      
+      import (
+          "os/exec"
+          "fmt"
+      )
+      
+      func executeAITask(prompt string) (string, error) {
+          cmd := exec.Command("{{AI_TOOL}}", "{{PROMPT_FLAG}}", prompt)
+          output, err := cmd.Output()
+          return string(output), err
+      }
+
+# Best Practices
+best_practices:
+  safety:
+    - "Always set execution limits"
+    - "Use appropriate permission modes"
+    - "Implement error handling"
+    - "Monitor resource usage"
+    - "Log all executions"
+  
+  efficiency:
+    - "Batch related tasks"
+    - "Reuse sessions when possible"
+    - "Cache results appropriately"
+    - "Use parallel execution wisely"
+    - "Optimize prompt clarity"
+  
+  reliability:
+    - "Implement retry logic"
+    - "Have fallback strategies"
+    - "Validate outputs"
+    - "Test in sandbox first"
+    - "Version control everything"
+  
+  cost_control:
+    - "Set cost limits"
+    - "Monitor token usage"
+    - "Optimize prompt length"
+    - "Use appropriate models"
+    - "Track usage metrics"
+
+# Customization Guide
+customization:
+  variables_to_replace:
+    "{{AI_TOOL}}": "Your AI tool command"
+    "{{PROMPT_FLAG}}": "Flag for prompt input"
+    "{{OPTIONS}}": "Additional options"
+    "{{SESSION_ID}}": "Session identifier"
+    "{{CONTEXT_FILE}}": "Context file path"
+  
+  adaptation_steps:
+    - "Identify your AI tool's CLI interface"
+    - "Map generic patterns to your tool's syntax"
+    - "Test patterns with simple tasks"
+    - "Implement error handling for your tool"
+    - "Create project-specific templates"
+  
+  testing_approach:
+    - "Start with read-only operations"
+    - "Test in isolated environment"
+    - "Gradually increase autonomy"
+    - "Monitor and log everything"
+    - "Document successful patterns"

@@ -1,0 +1,557 @@
+#!/usr/bin/env node
+
+/**
+ * Generic Orchestrator Template
+ * Replace {{PLACEHOLDERS}} with your project-specific values
+ * 
+ * This is a fully functional orchestrator that can be customized
+ * for any project and AI tool integration
+ */
+
+const fs = require('fs').promises;
+const path = require('path');
+const { spawn, exec } = require('child_process');
+const { promisify } = require('util');
+
+// If using YAML configuration, uncomment:
+// const yaml = require('js-yaml');
+
+const execAsync = promisify(exec);
+
+// ============================================================================
+// CONFIGURATION - Customize these values for your project
+// ============================================================================
+
+const CONFIG = {
+    // Project settings
+    PROJECT_NAME: '{{PROJECT_NAME}}',
+    PROJECT_ROOT: process.cwd(),
+    FRAMEWORK_DIR: path.join(process.cwd(), 'multiagent-framework'),
+    
+    // AI Tool settings
+    AI_TOOL: '{{AI_TOOL}}',  // e.g., 'claude', 'openai', 'custom-ai'
+    AI_COMMAND_TEMPLATE: '{{AI_COMMAND}}',  // e.g., 'claude -p "${prompt}" --max-turns ${turns}'
+    PERMISSION_MODE: '{{PERMISSION_MODE}}',  // e.g., 'acceptEdits', 'bypassPermissions'
+    MAX_TURNS: {{MAX_TURNS || 20}},
+    
+    // Agent settings
+    MAX_CONCURRENT_AGENTS: {{MAX_CONCURRENT || 5}},
+    DEFAULT_TIMEOUT: {{TIMEOUT || 1800000}},  // 30 minutes in milliseconds
+    
+    // Version control
+    VCS_TYPE: '{{VCS_TYPE}}',  // 'git', 'svn', 'none'
+    BRANCH_STRATEGY: '{{BRANCH_STRATEGY}}',  // 'worktrees', 'branches', 'directories'
+    
+    // Commands - Replace with your project's commands
+    COMMANDS: {
+        BUILD: '{{BUILD_COMMAND}}',  // e.g., 'npm run build'
+        TEST: '{{TEST_COMMAND}}',     // e.g., 'npm test'
+        LINT: '{{LINT_COMMAND}}',     // e.g., 'npm run lint'
+        FORMAT: '{{FORMAT_COMMAND}}', // e.g., 'npm run format'
+    }
+};
+
+// ============================================================================
+// ORCHESTRATOR CLASS
+// ============================================================================
+
+class Orchestrator {
+    constructor() {
+        this.agents = new Map();
+        this.config = CONFIG;
+        this.contextFile = path.join(CONFIG.FRAMEWORK_DIR, 'context', 'AGENT_CONTEXT.md');
+        this.memoryBankPath = path.join(CONFIG.FRAMEWORK_DIR, 'memory-bank');
+        this.trackingPath = path.join(CONFIG.FRAMEWORK_DIR, 'tracking');
+    }
+
+    /**
+     * Initialize the orchestrator
+     */
+    async init() {
+        console.log(`🚀 Initializing ${CONFIG.PROJECT_NAME} Orchestrator...`);
+        
+        try {
+            // Ensure required directories exist
+            await this.ensureDirectories();
+            
+            // Load agent definitions
+            await this.loadAgentDefinitions();
+            
+            // Initialize tracking
+            await this.initializeTracking();
+            
+            console.log('✅ Orchestrator initialized successfully\n');
+            return true;
+        } catch (error) {
+            console.error('❌ Initialization failed:', error.message);
+            return false;
+        }
+    }
+
+    /**
+     * Ensure all required directories exist
+     */
+    async ensureDirectories() {
+        const dirs = [
+            CONFIG.FRAMEWORK_DIR,
+            this.memoryBankPath,
+            this.trackingPath,
+            path.join(CONFIG.PROJECT_ROOT, 'work'),
+            path.join(this.trackingPath, 'logs')
+        ];
+
+        for (const dir of dirs) {
+            await fs.mkdir(dir, { recursive: true });
+        }
+    }
+
+    /**
+     * Load agent definitions from configuration
+     */
+    async loadAgentDefinitions() {
+        const definitionsPath = path.join(CONFIG.FRAMEWORK_DIR, 'agents', 'definitions.yaml');
+        
+        try {
+            const content = await fs.readFile(definitionsPath, 'utf8');
+            // Parse YAML if using yaml configuration
+            // this.agentDefinitions = yaml.load(content);
+            
+            // For now, use a simple structure
+            this.agentDefinitions = {
+                agents: {
+                    'frontend-developer': { name: 'Frontend Developer' },
+                    'backend-developer': { name: 'Backend Developer' },
+                    'test-engineer': { name: 'Test Engineer' },
+                    // Add more as needed
+                }
+            };
+            
+            console.log(`📋 Loaded ${Object.keys(this.agentDefinitions.agents).length} agent definitions`);
+        } catch (error) {
+            console.warn('⚠️  Could not load agent definitions, using defaults');
+            this.agentDefinitions = { agents: {} };
+        }
+    }
+
+    /**
+     * Initialize progress tracking
+     */
+    async initializeTracking() {
+        const progressFile = path.join(this.trackingPath, 'progress.md');
+        
+        if (!await this.fileExists(progressFile)) {
+            const initialContent = `# Progress Tracking
+            
+## Project: ${CONFIG.PROJECT_NAME}
+## Started: ${new Date().toISOString()}
+
+### Active Agents
+None
+
+### Completed Tasks
+None yet
+
+### Statistics
+- Total Agents: 0
+- Tasks Completed: 0
+- Success Rate: 0%
+`;
+            await fs.writeFile(progressFile, initialContent);
+        }
+    }
+
+    /**
+     * Deploy agents based on context configuration
+     */
+    async deploy() {
+        console.log('🚀 Starting Agent Deployment...\n');
+        
+        try {
+            // Read deployment configuration from context
+            const context = await this.readContext();
+            const tasks = this.parseTasksFromContext(context);
+            
+            if (tasks.length === 0) {
+                console.log('⚠️  No tasks found in AGENT_CONTEXT.md');
+                console.log('   Please configure tasks in the context file first.');
+                return false;
+            }
+            
+            console.log(`📋 Found ${tasks.length} tasks to execute\n`);
+            
+            // Execute tasks
+            const results = await this.executeTasks(tasks);
+            
+            // Report results
+            this.reportResults(results);
+            
+            return true;
+        } catch (error) {
+            console.error('❌ Deployment failed:', error.message);
+            return false;
+        }
+    }
+
+    /**
+     * Execute tasks with agents
+     */
+    async executeTasks(tasks) {
+        const results = [];
+        const concurrentLimit = CONFIG.MAX_CONCURRENT_AGENTS;
+        
+        // Process tasks in batches
+        for (let i = 0; i < tasks.length; i += concurrentLimit) {
+            const batch = tasks.slice(i, i + concurrentLimit);
+            const batchResults = await Promise.allSettled(
+                batch.map(task => this.executeTask(task))
+            );
+            results.push(...batchResults);
+        }
+        
+        return results;
+    }
+
+    /**
+     * Execute a single task with an agent
+     */
+    async executeTask(task) {
+        const agentId = this.generateAgentId(task.agent);
+        console.log(`🤖 Starting ${agentId} for: ${task.description}`);
+        
+        try {
+            // Create work environment
+            const workDir = await this.createWorkEnvironment(agentId);
+            
+            // Prepare agent instructions
+            const instructions = await this.prepareInstructions(task, workDir);
+            
+            // Execute AI tool
+            const result = await this.executeAITool(instructions, workDir);
+            
+            // Update tracking
+            await this.updateTracking(agentId, 'COMPLETE', task.description);
+            
+            console.log(`✅ ${agentId} completed successfully`);
+            return { agentId, task, result, status: 'success' };
+            
+        } catch (error) {
+            console.error(`❌ ${agentId} failed:`, error.message);
+            await this.updateTracking(agentId, 'ERROR', error.message);
+            return { agentId, task, error: error.message, status: 'failed' };
+        }
+    }
+
+    /**
+     * Create work environment for agent
+     */
+    async createWorkEnvironment(agentId) {
+        const workDir = path.join(CONFIG.PROJECT_ROOT, 'work', agentId);
+        await fs.mkdir(workDir, { recursive: true });
+        
+        // Setup version control if configured
+        if (CONFIG.VCS_TYPE === 'git') {
+            await this.setupGitEnvironment(agentId, workDir);
+        }
+        
+        return workDir;
+    }
+
+    /**
+     * Setup Git environment
+     */
+    async setupGitEnvironment(agentId, workDir) {
+        if (CONFIG.BRANCH_STRATEGY === 'worktrees') {
+            // Create Git worktree
+            await execAsync(`git worktree add -b agent-${agentId} ${workDir}`);
+        } else if (CONFIG.BRANCH_STRATEGY === 'branches') {
+            // Create branch
+            await execAsync(`git checkout -b agent-${agentId}`);
+        }
+        // For 'directories', no git setup needed
+    }
+
+    /**
+     * Prepare instructions for AI agent
+     */
+    async prepareInstructions(task, workDir) {
+        const memoryBank = await this.loadMemoryBank();
+        
+        return `
+You are a ${task.agent} agent working on the following task:
+
+Task: ${task.description}
+Project: ${CONFIG.PROJECT_NAME}
+Working Directory: ${workDir}
+
+Memory Bank Context:
+${memoryBank}
+
+Please complete the task following these guidelines:
+1. Use the Baby Steps methodology
+2. Validate after each change
+3. Update documentation as needed
+4. Follow project conventions
+
+Specific Requirements:
+${task.requirements || 'Follow best practices for this type of task'}
+
+Begin work on the task.
+`;
+    }
+
+    /**
+     * Execute AI tool with instructions
+     */
+    async executeAITool(instructions, workDir) {
+        // Build the command based on configuration
+        let command = CONFIG.AI_COMMAND_TEMPLATE
+            .replace('${prompt}', instructions)
+            .replace('${turns}', CONFIG.MAX_TURNS)
+            .replace('${mode}', CONFIG.PERMISSION_MODE);
+        
+        console.log(`   Executing: ${CONFIG.AI_TOOL}...`);
+        
+        return new Promise((resolve, reject) => {
+            const child = exec(command, {
+                cwd: workDir,
+                timeout: CONFIG.DEFAULT_TIMEOUT
+            }, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({ stdout, stderr });
+                }
+            });
+            
+            // Optional: Stream output
+            if (child.stdout) {
+                child.stdout.on('data', (data) => {
+                    // console.log(`   ${data}`);
+                });
+            }
+        });
+    }
+
+    /**
+     * Update progress tracking
+     */
+    async updateTracking(agentId, status, message) {
+        const timestamp = new Date().toISOString();
+        const logEntry = `[${agentId}] [${timestamp}] ${status}: ${message}\n`;
+        
+        const logFile = path.join(this.trackingPath, 'logs', `${agentId}.log`);
+        await fs.appendFile(logFile, logEntry);
+        
+        // Also update main progress file
+        const progressFile = path.join(this.trackingPath, 'progress.md');
+        await fs.appendFile(progressFile, `\n- ${logEntry}`);
+    }
+
+    /**
+     * Helper functions
+     */
+    
+    async fileExists(filePath) {
+        try {
+            await fs.access(filePath);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+    
+    generateAgentId(agentType) {
+        const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
+        return `AGENT_${agentType.toUpperCase()}_${timestamp}`;
+    }
+    
+    async readContext() {
+        try {
+            return await fs.readFile(this.contextFile, 'utf8');
+        } catch (error) {
+            console.warn('⚠️  Could not read AGENT_CONTEXT.md');
+            return '';
+        }
+    }
+    
+    parseTasksFromContext(context) {
+        // Simple parser - customize based on your context format
+        const tasks = [];
+        const lines = context.split('\n');
+        
+        let currentAgent = null;
+        for (const line of lines) {
+            if (line.includes('### Agent:')) {
+                currentAgent = line.split('Agent:')[1].trim();
+            } else if (line.startsWith('- ') && currentAgent) {
+                tasks.push({
+                    agent: currentAgent,
+                    description: line.substring(2).trim()
+                });
+            }
+        }
+        
+        return tasks;
+    }
+    
+    async loadMemoryBank() {
+        const files = ['projectBrief.md', 'techContext.md', 'activeContext.md'];
+        let content = '';
+        
+        for (const file of files) {
+            const filePath = path.join(this.memoryBankPath, file);
+            if (await this.fileExists(filePath)) {
+                content += await fs.readFile(filePath, 'utf8') + '\n\n';
+            }
+        }
+        
+        return content;
+    }
+    
+    reportResults(results) {
+        console.log('\n📊 Deployment Results:');
+        console.log('=' .repeat(50));
+        
+        let successful = 0;
+        let failed = 0;
+        
+        for (const result of results) {
+            if (result.status === 'fulfilled' && result.value.status === 'success') {
+                successful++;
+                console.log(`✅ ${result.value.agentId}: SUCCESS`);
+            } else {
+                failed++;
+                const error = result.reason || result.value?.error || 'Unknown error';
+                console.log(`❌ ${result.value?.agentId || 'UNKNOWN'}: FAILED - ${error}`);
+            }
+        }
+        
+        console.log('=' .repeat(50));
+        console.log(`\nSummary: ${successful} successful, ${failed} failed`);
+    }
+    
+    /**
+     * Additional orchestrator methods
+     */
+    
+    async status() {
+        console.log('📊 Current Status\n');
+        
+        // Show active agents
+        const workDir = path.join(CONFIG.PROJECT_ROOT, 'work');
+        try {
+            const agents = await fs.readdir(workDir);
+            console.log(`Active Agents: ${agents.length}`);
+            for (const agent of agents) {
+                console.log(`  - ${agent}`);
+            }
+        } catch {
+            console.log('No active agents');
+        }
+        
+        // Show recent progress
+        const progressFile = path.join(this.trackingPath, 'progress.md');
+        if (await this.fileExists(progressFile)) {
+            const content = await fs.readFile(progressFile, 'utf8');
+            const lines = content.split('\n').slice(-10);
+            console.log('\nRecent Progress:');
+            lines.forEach(line => console.log(line));
+        }
+    }
+    
+    async cleanup() {
+        console.log('🧹 Cleaning up...\n');
+        
+        const workDir = path.join(CONFIG.PROJECT_ROOT, 'work');
+        
+        // Remove work directories
+        try {
+            const agents = await fs.readdir(workDir);
+            for (const agent of agents) {
+                const agentDir = path.join(workDir, agent);
+                
+                // If using Git worktrees, remove properly
+                if (CONFIG.VCS_TYPE === 'git' && CONFIG.BRANCH_STRATEGY === 'worktrees') {
+                    await execAsync(`git worktree remove ${agentDir} --force`);
+                } else {
+                    await fs.rm(agentDir, { recursive: true, force: true });
+                }
+                
+                console.log(`  Removed: ${agent}`);
+            }
+            
+            console.log('\n✅ Cleanup completed');
+        } catch (error) {
+            console.error('❌ Cleanup failed:', error.message);
+        }
+    }
+}
+
+// ============================================================================
+// CLI INTERFACE
+// ============================================================================
+
+async function main() {
+    const orchestrator = new Orchestrator();
+    const command = process.argv[2] || 'help';
+    
+    // Initialize for all commands except help
+    if (command !== 'help') {
+        const initialized = await orchestrator.init();
+        if (!initialized && command !== 'init') {
+            console.error('Failed to initialize. Run "init" command first.');
+            process.exit(1);
+        }
+    }
+    
+    switch (command) {
+        case 'init':
+            console.log('✅ Initialization complete');
+            break;
+            
+        case 'deploy':
+            await orchestrator.deploy();
+            break;
+            
+        case 'status':
+            await orchestrator.status();
+            break;
+            
+        case 'cleanup':
+            await orchestrator.cleanup();
+            break;
+            
+        case 'help':
+        default:
+            console.log(`
+${CONFIG.PROJECT_NAME} - Multiagent Orchestrator
+
+Usage: node orchestrator.js [command]
+
+Commands:
+  init     - Initialize the orchestration system
+  deploy   - Deploy agents based on AGENT_CONTEXT.md
+  status   - Show current status
+  cleanup  - Clean up work directories
+  help     - Show this help message
+
+Configuration:
+  Edit AGENT_CONTEXT.md to define tasks
+  Update CONFIG object in this file for project settings
+
+Examples:
+  node orchestrator.js init
+  node orchestrator.js deploy
+  node orchestrator.js status
+`);
+            break;
+    }
+}
+
+// Export for use as module
+module.exports = Orchestrator;
+
+// Run if executed directly
+if (require.main === module) {
+    main().catch(console.error);
+}

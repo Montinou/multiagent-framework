@@ -1,0 +1,373 @@
+# Example Configuration: Python + Django Application
+# Complete configuration for a Django web application
+
+project:
+  name: "DjangoApp"
+  description: "Full-stack Django application with REST API"
+  tech_stack: "Python, Django, Django REST Framework, PostgreSQL, Celery"
+
+# Technology-specific commands
+commands:
+  # Environment setup
+  venv_create: "python -m venv venv"
+  venv_activate: "source venv/bin/activate"  # Unix/Mac
+  venv_activate_win: "venv\\Scripts\\activate"  # Windows
+  
+  # Dependencies
+  install: "pip install -r requirements.txt"
+  install_dev: "pip install -r requirements-dev.txt"
+  freeze: "pip freeze > requirements.txt"
+  
+  # Django management
+  runserver: "python manage.py runserver"
+  shell: "python manage.py shell"
+  shell_plus: "python manage.py shell_plus"
+  
+  # Database
+  makemigrations: "python manage.py makemigrations"
+  migrate: "python manage.py migrate"
+  db_seed: "python manage.py loaddata fixtures/*.json"
+  db_reset: "python manage.py flush --no-input"
+  createsuperuser: "python manage.py createsuperuser"
+  
+  # Testing
+  test: "python manage.py test"
+  test_coverage: "coverage run --source='.' manage.py test && coverage report"
+  test_parallel: "python manage.py test --parallel"
+  
+  # Static files
+  collectstatic: "python manage.py collectstatic --no-input"
+  
+  # Linting and formatting
+  lint: "flake8 ."
+  format: "black ."
+  isort: "isort ."
+  type_check: "mypy ."
+  
+  # Celery
+  celery_worker: "celery -A project worker -l info"
+  celery_beat: "celery -A project beat -l info"
+  flower: "celery -A project flower"
+  
+  # Deployment
+  gunicorn: "gunicorn project.wsgi:application"
+  deploy: "fab deploy"
+
+# Agent configurations for Django
+agents:
+  backend-developer:
+    name: "Django Backend Developer"
+    specialization: "Django views, models, and APIs"
+    capabilities:
+      - "Django model design"
+      - "View and viewset development"
+      - "Django REST Framework APIs"
+      - "Django admin customization"
+      - "Signal implementation"
+      - "Middleware development"
+    tools_used:
+      - "Django"
+      - "Django REST Framework"
+      - "Pytest-django"
+      - "Django Debug Toolbar"
+    file_patterns:
+      - "*/models.py"
+      - "*/views.py"
+      - "*/serializers.py"
+      - "*/urls.py"
+      - "*/admin.py"
+      - "*/signals.py"
+    validation_commands:
+      - "python manage.py check"
+      - "python manage.py test app_name"
+      - "flake8 app_name/"
+  
+  frontend-developer:
+    name: "Django Template Developer"
+    specialization: "Django templates and frontend"
+    capabilities:
+      - "Django template development"
+      - "Template tag creation"
+      - "Static file management"
+      - "HTMX integration"
+      - "JavaScript integration"
+    tools_used:
+      - "Django Templates"
+      - "Bootstrap/Tailwind"
+      - "HTMX"
+      - "Alpine.js"
+    file_patterns:
+      - "templates/**/*.html"
+      - "static/css/**/*.css"
+      - "static/js/**/*.js"
+      - "*/templatetags/*.py"
+    validation_commands:
+      - "python manage.py validate_templates"
+      - "python manage.py collectstatic --dry-run"
+  
+  database-architect:
+    name: "Django Database Architect"
+    specialization: "Django ORM and PostgreSQL"
+    capabilities:
+      - "Model design and relationships"
+      - "Custom migrations"
+      - "Query optimization"
+      - "Database indexing"
+      - "Raw SQL when needed"
+    tools_used:
+      - "Django ORM"
+      - "PostgreSQL"
+      - "django-debug-toolbar"
+    file_patterns:
+      - "*/models.py"
+      - "*/migrations/*.py"
+      - "*/managers.py"
+    validation_commands:
+      - "python manage.py makemigrations --dry-run"
+      - "python manage.py sqlmigrate app_name 0001"
+      - "python manage.py dbshell"
+  
+  api-developer:
+    name: "Django REST API Developer"
+    specialization: "RESTful API development"
+    capabilities:
+      - "REST API design"
+      - "Serializer development"
+      - "ViewSet implementation"
+      - "API authentication"
+      - "API documentation"
+    tools_used:
+      - "Django REST Framework"
+      - "drf-spectacular"
+      - "django-cors-headers"
+    file_patterns:
+      - "*/serializers.py"
+      - "*/viewsets.py"
+      - "*/api/*.py"
+      - "*/permissions.py"
+    validation_commands:
+      - "python manage.py spectacular --validate"
+      - "python manage.py test api"
+
+# Django-specific workflows
+workflows:
+  model_development:
+    phases:
+      - name: "Model Design"
+        agents: ["database-architect"]
+        duration: "30 minutes"
+        outputs:
+          - "Model definitions"
+          - "Relationships"
+      
+      - name: "Migration Creation"
+        agents: ["database-architect"]
+        duration: "15 minutes"
+        outputs:
+          - "Migration files"
+      
+      - name: "Admin Interface"
+        agents: ["backend-developer"]
+        duration: "30 minutes"
+        outputs:
+          - "Admin configuration"
+      
+      - name: "API Endpoints"
+        agents: ["api-developer"]
+        duration: "1 hour"
+        outputs:
+          - "Serializers"
+          - "ViewSets"
+          - "URLs"
+  
+  feature_development:
+    phases:
+      - name: "Model Layer"
+        agents: ["database-architect"]
+        duration: "1 hour"
+      
+      - name: "Business Logic"
+        agents: ["backend-developer"]
+        duration: "2 hours"
+      
+      - name: "API Layer"
+        agents: ["api-developer"]
+        duration: "1 hour"
+      
+      - name: "Templates"
+        agents: ["frontend-developer"]
+        duration: "1 hour"
+      
+      - name: "Testing"
+        agents: ["test-engineer"]
+        duration: "1 hour"
+
+# Environment variables
+environment:
+  DJANGO_SETTINGS_MODULE: "project.settings.development"
+  SECRET_KEY: "your-secret-key-here"
+  DEBUG: "True"
+  DATABASE_URL: "postgres://user:password@localhost:5432/django_db"
+  REDIS_URL: "redis://localhost:6379/0"
+  CELERY_BROKER_URL: "redis://localhost:6379/0"
+  ALLOWED_HOSTS: "localhost,127.0.0.1"
+  CORS_ALLOWED_ORIGINS: "http://localhost:3000"
+
+# Project structure
+structure:
+  root:
+    - "project/           # Main project directory"
+    - "apps/              # Django apps"
+    - "templates/         # Global templates"
+    - "static/            # Static files"
+    - "media/             # User-uploaded files"
+    - "locale/            # Translations"
+    - "fixtures/          # Data fixtures"
+    - "requirements/      # Requirements files"
+    - "tests/             # Global tests"
+  
+  app_structure:
+    - "migrations/        # Database migrations"
+    - "management/        # Management commands"
+    - "templatetags/      # Custom template tags"
+    - "static/            # App-specific static files"
+    - "templates/         # App-specific templates"
+    - "tests/             # App tests"
+    - "models.py          # Data models"
+    - "views.py           # Views"
+    - "urls.py            # URL configuration"
+    - "admin.py           # Admin configuration"
+    - "forms.py           # Forms"
+    - "serializers.py     # DRF serializers"
+    - "signals.py         # Signal handlers"
+    - "tasks.py           # Celery tasks"
+
+# Testing configuration
+testing:
+  framework: "Django TestCase / pytest-django"
+  
+  structure:
+    - "tests/test_models.py"
+    - "tests/test_views.py"
+    - "tests/test_api.py"
+    - "tests/test_forms.py"
+    - "tests/test_commands.py"
+  
+  fixtures:
+    location: "fixtures/"
+    format: "json"
+  
+  coverage:
+    threshold: 80
+    omit:
+      - "*/migrations/*"
+      - "*/tests/*"
+      - "*/venv/*"
+      - "manage.py"
+
+# Django settings
+django_settings:
+  development:
+    DEBUG: true
+    ALLOWED_HOSTS: ["localhost", "127.0.0.1"]
+    DATABASES:
+      default:
+        ENGINE: "django.db.backends.postgresql"
+        NAME: "django_dev"
+    INSTALLED_APPS_EXTRA:
+      - "django_extensions"
+      - "debug_toolbar"
+  
+  production:
+    DEBUG: false
+    ALLOWED_HOSTS: ["example.com"]
+    DATABASES:
+      default:
+        ENGINE: "django.db.backends.postgresql"
+        NAME: "django_prod"
+    MIDDLEWARE_EXTRA:
+      - "whitenoise.middleware.WhiteNoiseMiddleware"
+
+# Deployment configuration
+deployment:
+  method: "Docker + Gunicorn + Nginx"
+  
+  dockerfile: |
+    FROM python:3.11
+    WORKDIR /app
+    COPY requirements.txt .
+    RUN pip install -r requirements.txt
+    COPY . .
+    RUN python manage.py collectstatic --no-input
+    CMD ["gunicorn", "--bind", "0.0.0.0:8000", "project.wsgi"]
+  
+  docker_compose: |
+    version: '3.8'
+    services:
+      web:
+        build: .
+        ports:
+          - "8000:8000"
+        depends_on:
+          - db
+          - redis
+      db:
+        image: postgres:15
+        environment:
+          POSTGRES_DB: django_db
+          POSTGRES_USER: django_user
+          POSTGRES_PASSWORD: django_password
+      redis:
+        image: redis:7
+
+# CI/CD configuration
+ci_cd:
+  provider: "GitHub Actions"
+  
+  workflow:
+    - name: "Setup Python"
+      uses: "actions/setup-python@v4"
+      with:
+        python-version: "3.11"
+    
+    - name: "Install dependencies"
+      run: "pip install -r requirements.txt"
+    
+    - name: "Run linting"
+      run: "flake8 ."
+    
+    - name: "Run tests"
+      run: "python manage.py test"
+    
+    - name: "Check migrations"
+      run: "python manage.py makemigrations --check"
+
+# Development tools
+dev_tools:
+  recommended:
+    - "PyCharm Professional or VS Code"
+    - "Django Debug Toolbar"
+    - "Django Extensions"
+    - "IPython"
+    - "Black formatter"
+    - "pgAdmin or DBeaver"
+  
+  vscode_extensions:
+    - "ms-python.python"
+    - "batisteo.vscode-django"
+    - "wholroyd.jinja"
+    - "ms-python.vscode-pylance"
+    - "ms-python.black-formatter"
+  
+  pip_packages_dev:
+    - "django-debug-toolbar"
+    - "django-extensions"
+    - "ipython"
+    - "black"
+    - "flake8"
+    - "isort"
+    - "mypy"
+    - "pytest-django"
+    - "coverage"
+    - "factory-boy"
+    - "faker"

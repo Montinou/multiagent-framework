@@ -1,0 +1,270 @@
+# Example Configuration: Node.js + React Application
+# Complete configuration for a typical web application
+
+project:
+  name: "MyWebApp"
+  description: "Full-stack web application with React frontend and Node.js backend"
+  tech_stack: "Node.js, React, TypeScript, PostgreSQL"
+  
+# Technology-specific commands
+commands:
+  # Dependencies
+  install: "npm install"
+  install_ci: "npm ci"
+  
+  # Development
+  dev: "npm run dev"
+  dev_frontend: "npm run dev:frontend"
+  dev_backend: "npm run dev:backend"
+  
+  # Building
+  build: "npm run build"
+  build_frontend: "npm run build:frontend"
+  build_backend: "npm run build:backend"
+  
+  # Testing
+  test: "npm test"
+  test_watch: "npm run test:watch"
+  test_coverage: "npm run test:coverage"
+  test_e2e: "npm run test:e2e"
+  
+  # Linting and Formatting
+  lint: "npm run lint"
+  lint_fix: "npm run lint:fix"
+  format: "npm run format"
+  type_check: "npm run type-check"
+  
+  # Database
+  db_migrate: "npm run db:migrate"
+  db_seed: "npm run db:seed"
+  db_reset: "npm run db:reset"
+  
+  # Deployment
+  deploy: "npm run deploy"
+  start: "npm start"
+
+# Agent configurations for Node.js/React
+agents:
+  frontend-developer:
+    name: "React Frontend Developer"
+    specialization: "React components with TypeScript"
+    capabilities:
+      - "React component development"
+      - "State management (Redux/Context)"
+      - "React Router implementation"
+      - "Responsive design with CSS/Tailwind"
+      - "React Hook development"
+    tools_used:
+      - "React DevTools"
+      - "TypeScript"
+      - "ESLint"
+      - "Prettier"
+    file_patterns:
+      - "src/components/**/*.tsx"
+      - "src/pages/**/*.tsx"
+      - "src/hooks/**/*.ts"
+      - "src/styles/**/*.css"
+    validation_commands:
+      - "npm run type-check"
+      - "npm run lint src/components"
+      - "npm run test:components"
+  
+  backend-developer:
+    name: "Node.js Backend Developer"
+    specialization: "Express.js REST APIs"
+    capabilities:
+      - "REST API development"
+      - "GraphQL implementation"
+      - "Authentication/Authorization"
+      - "Database integration"
+      - "WebSocket implementation"
+    tools_used:
+      - "Express.js"
+      - "Node.js"
+      - "Sequelize/Prisma"
+      - "Jest"
+    file_patterns:
+      - "src/routes/**/*.ts"
+      - "src/controllers/**/*.ts"
+      - "src/services/**/*.ts"
+      - "src/middleware/**/*.ts"
+    validation_commands:
+      - "npm run test:api"
+      - "npm run lint src/routes"
+  
+  database-architect:
+    name: "PostgreSQL Database Architect"
+    specialization: "PostgreSQL with Prisma ORM"
+    capabilities:
+      - "Schema design with Prisma"
+      - "Migration management"
+      - "Query optimization"
+      - "Index planning"
+    tools_used:
+      - "PostgreSQL"
+      - "Prisma"
+      - "pgAdmin"
+    file_patterns:
+      - "prisma/schema.prisma"
+      - "prisma/migrations/**/*.sql"
+      - "src/db/**/*.ts"
+    validation_commands:
+      - "npx prisma validate"
+      - "npx prisma migrate dev --dry-run"
+
+# Workflow customizations
+workflows:
+  feature_development:
+    phases:
+      - name: "Component Design"
+        agents: ["frontend-developer"]
+        duration: "1 hour"
+        outputs:
+          - "Component specifications"
+          - "Props interface"
+      
+      - name: "API Development"
+        agents: ["backend-developer"]
+        duration: "2 hours"
+        outputs:
+          - "API endpoints"
+          - "Data models"
+      
+      - name: "Integration"
+        agents: ["frontend-developer", "backend-developer"]
+        duration: "1 hour"
+        outputs:
+          - "Connected components"
+          - "API integration"
+      
+      - name: "Testing"
+        agents: ["test-engineer"]
+        duration: "1 hour"
+        outputs:
+          - "Unit tests"
+          - "Integration tests"
+
+# Environment variables
+environment:
+  NODE_ENV: "development"
+  PORT: "3000"
+  API_PORT: "3001"
+  DATABASE_URL: "postgresql://user:password@localhost:5432/myapp"
+  JWT_SECRET: "your-secret-key"
+  REACT_APP_API_URL: "http://localhost:3001"
+
+# Package.json scripts template
+package_scripts:
+  scripts:
+    # Development
+    "dev": "concurrently \"npm:dev:*\""
+    "dev:frontend": "vite"
+    "dev:backend": "nodemon src/server/index.ts"
+    
+    # Building
+    "build": "npm run build:frontend && npm run build:backend"
+    "build:frontend": "vite build"
+    "build:backend": "tsc -p tsconfig.server.json"
+    
+    # Testing
+    "test": "jest"
+    "test:watch": "jest --watch"
+    "test:coverage": "jest --coverage"
+    "test:e2e": "playwright test"
+    
+    # Linting
+    "lint": "eslint . --ext .ts,.tsx"
+    "lint:fix": "eslint . --ext .ts,.tsx --fix"
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\""
+    "type-check": "tsc --noEmit"
+    
+    # Database
+    "db:migrate": "prisma migrate dev"
+    "db:push": "prisma db push"
+    "db:seed": "tsx prisma/seed.ts"
+    "db:studio": "prisma studio"
+    
+    # Production
+    "start": "node dist/server/index.js"
+    "preview": "vite preview"
+
+# Testing configuration
+testing:
+  unit:
+    framework: "Jest"
+    config_file: "jest.config.js"
+    coverage_threshold: 80
+  
+  integration:
+    framework: "Supertest"
+    api_tests: "tests/api/**/*.test.ts"
+  
+  e2e:
+    framework: "Playwright"
+    config_file: "playwright.config.ts"
+    browsers: ["chromium", "firefox", "webkit"]
+
+# CI/CD configuration
+ci_cd:
+  provider: "GitHub Actions"
+  pipeline:
+    - name: "Install"
+      command: "npm ci"
+    
+    - name: "Lint"
+      command: "npm run lint"
+    
+    - name: "Type Check"
+      command: "npm run type-check"
+    
+    - name: "Test"
+      command: "npm run test:coverage"
+    
+    - name: "Build"
+      command: "npm run build"
+    
+    - name: "E2E Test"
+      command: "npm run test:e2e"
+
+# Development tools
+dev_tools:
+  recommended:
+    - "VS Code with ESLint and Prettier extensions"
+    - "React Developer Tools"
+    - "Redux DevTools"
+    - "Postman/Insomnia for API testing"
+    - "pgAdmin for database management"
+  
+  vscode_extensions:
+    - "dbaeumer.vscode-eslint"
+    - "esbenp.prettier-vscode"
+    - "prisma.prisma"
+    - "bradlc.vscode-tailwindcss"
+    - "dsznajder.es7-react-js-snippets"
+
+# Project structure
+structure:
+  frontend:
+    src:
+      - "components/    # Reusable React components"
+      - "pages/         # Page components"
+      - "hooks/         # Custom React hooks"
+      - "services/      # API service layers"
+      - "utils/         # Utility functions"
+      - "styles/        # Global styles"
+      - "types/         # TypeScript types"
+  
+  backend:
+    src:
+      - "routes/        # API routes"
+      - "controllers/   # Route controllers"
+      - "services/      # Business logic"
+      - "middleware/    # Express middleware"
+      - "models/        # Data models"
+      - "utils/         # Utility functions"
+      - "config/        # Configuration"
+  
+  shared:
+    - "types/           # Shared TypeScript types"
+    - "constants/       # Shared constants"
+    - "utils/           # Shared utilities"

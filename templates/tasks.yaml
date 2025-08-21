@@ -1,0 +1,467 @@
+# Generic Task Templates
+# Define reusable task patterns for your project
+
+task_categories:
+  # Development Tasks
+  development:
+    create_component:
+      name: "Create {{COMPONENT_TYPE}} Component"
+      description: "Create a new reusable component"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["frontend-developer", "backend-developer"]
+      
+      steps:
+        - name: "Setup Structure"
+          actions:
+            - "Create component file"
+            - "Create test file"
+            - "Create documentation file"
+          validation: "Files exist in correct location"
+        
+        - name: "Basic Implementation"
+          actions:
+            - "Implement core functionality"
+            - "Add props/parameters"
+            - "Handle basic cases"
+          validation: "Component compiles/runs"
+        
+        - name: "Add Tests"
+          actions:
+            - "Write unit tests"
+            - "Test edge cases"
+            - "Check coverage"
+          validation: "Tests pass with >80% coverage"
+        
+        - name: "Documentation"
+          actions:
+            - "Add inline comments"
+            - "Write usage examples"
+            - "Update README"
+          validation: "Documentation complete"
+      
+      deliverables:
+        - "Component source file"
+        - "Test file"
+        - "Documentation"
+      
+      success_criteria:
+        - "Component works as specified"
+        - "Tests pass"
+        - "Documentation clear"
+        - "Code follows standards"
+    
+    implement_api_endpoint:
+      name: "Implement API Endpoint"
+      description: "Create a new API endpoint"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["backend-developer"]
+      
+      steps:
+        - name: "Define Contract"
+          actions:
+            - "Define request schema"
+            - "Define response schema"
+            - "Document endpoint"
+          validation: "Schema valid"
+        
+        - name: "Implementation"
+          actions:
+            - "Create route handler"
+            - "Implement business logic"
+            - "Add validation"
+            - "Handle errors"
+          validation: "Endpoint responds correctly"
+        
+        - name: "Testing"
+          actions:
+            - "Write integration tests"
+            - "Test error cases"
+            - "Test validation"
+          validation: "All tests pass"
+        
+        - name: "Documentation"
+          actions:
+            - "Update API docs"
+            - "Add examples"
+            - "Document errors"
+          validation: "Docs complete"
+      
+      deliverables:
+        - "Endpoint implementation"
+        - "Tests"
+        - "API documentation"
+    
+    database_migration:
+      name: "Create Database Migration"
+      description: "Modify database schema"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["database-architect"]
+      
+      steps:
+        - name: "Plan Migration"
+          actions:
+            - "Analyze current schema"
+            - "Design changes"
+            - "Plan rollback"
+          validation: "Migration plan approved"
+        
+        - name: "Write Migration"
+          actions:
+            - "Create up migration"
+            - "Create down migration"
+            - "Add data transformation"
+          validation: "Migration scripts valid"
+        
+        - name: "Test Migration"
+          actions:
+            - "Test on dev database"
+            - "Verify data integrity"
+            - "Test rollback"
+          validation: "Migration successful"
+      
+      deliverables:
+        - "Migration scripts"
+        - "Rollback scripts"
+        - "Migration documentation"
+
+  # Testing Tasks
+  testing:
+    write_unit_tests:
+      name: "Write Unit Tests"
+      description: "Add unit tests for existing code"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["test-engineer", "developer"]
+      
+      steps:
+        - name: "Identify Test Cases"
+          actions:
+            - "Analyze code paths"
+            - "Identify edge cases"
+            - "Plan test scenarios"
+          validation: "Test plan complete"
+        
+        - name: "Write Tests"
+          actions:
+            - "Setup test fixtures"
+            - "Write test cases"
+            - "Add assertions"
+          validation: "Tests compile"
+        
+        - name: "Validate Coverage"
+          actions:
+            - "Run coverage report"
+            - "Add missing tests"
+            - "Refactor if needed"
+          validation: "Coverage >{{COVERAGE_TARGET}}%"
+      
+      deliverables:
+        - "Test files"
+        - "Coverage report"
+    
+    integration_testing:
+      name: "Create Integration Tests"
+      description: "Test component integration"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["test-engineer"]
+      
+      steps:
+        - name: "Setup Test Environment"
+          actions:
+            - "Configure test database"
+            - "Setup test data"
+            - "Configure mocks"
+          validation: "Environment ready"
+        
+        - name: "Write Integration Tests"
+          actions:
+            - "Test component interaction"
+            - "Test data flow"
+            - "Test error handling"
+          validation: "Tests pass"
+      
+      deliverables:
+        - "Integration test suite"
+        - "Test results"
+
+  # Maintenance Tasks
+  maintenance:
+    bug_fix:
+      name: "Fix Bug"
+      description: "Fix identified bug"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["developer"]
+      
+      steps:
+        - name: "Reproduce Bug"
+          actions:
+            - "Setup reproduction environment"
+            - "Confirm bug behavior"
+            - "Document steps to reproduce"
+          validation: "Bug reproduced"
+        
+        - name: "Root Cause Analysis"
+          actions:
+            - "Debug code"
+            - "Identify root cause"
+            - "Document findings"
+          validation: "Root cause identified"
+        
+        - name: "Implement Fix"
+          actions:
+            - "Fix root cause"
+            - "Add regression test"
+            - "Test fix"
+          validation: "Bug fixed, tests pass"
+      
+      deliverables:
+        - "Bug fix code"
+        - "Regression test"
+        - "Fix documentation"
+    
+    performance_optimization:
+      name: "Optimize Performance"
+      description: "Improve code performance"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["developer", "database-architect"]
+      
+      steps:
+        - name: "Profile Performance"
+          actions:
+            - "Run profiler"
+            - "Identify bottlenecks"
+            - "Measure baseline"
+          validation: "Bottlenecks identified"
+        
+        - name: "Optimize"
+          actions:
+            - "Optimize algorithms"
+            - "Optimize queries"
+            - "Add caching"
+          validation: "Performance improved"
+        
+        - name: "Validate"
+          actions:
+            - "Re-run profiler"
+            - "Compare metrics"
+            - "Ensure functionality"
+          validation: "Performance targets met"
+      
+      deliverables:
+        - "Optimized code"
+        - "Performance report"
+    
+    refactoring:
+      name: "Refactor Code"
+      description: "Improve code quality"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["developer"]
+      
+      steps:
+        - name: "Analyze Code"
+          actions:
+            - "Identify code smells"
+            - "Plan refactoring"
+            - "Ensure test coverage"
+          validation: "Refactoring plan ready"
+        
+        - name: "Refactor"
+          actions:
+            - "Extract methods"
+            - "Rename variables"
+            - "Simplify logic"
+            - "Remove duplication"
+          validation: "Code cleaner"
+        
+        - name: "Verify"
+          actions:
+            - "Run tests"
+            - "Check functionality"
+            - "Review changes"
+          validation: "All tests pass"
+      
+      deliverables:
+        - "Refactored code"
+        - "Refactoring notes"
+
+  # Documentation Tasks
+  documentation:
+    write_documentation:
+      name: "Write Documentation"
+      description: "Create or update documentation"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["documentation-writer", "developer"]
+      
+      steps:
+        - name: "Plan Documentation"
+          actions:
+            - "Identify audience"
+            - "Outline structure"
+            - "Gather information"
+          validation: "Outline complete"
+        
+        - name: "Write Content"
+          actions:
+            - "Write sections"
+            - "Add examples"
+            - "Add diagrams"
+          validation: "Content complete"
+        
+        - name: "Review"
+          actions:
+            - "Check accuracy"
+            - "Check completeness"
+            - "Format properly"
+          validation: "Documentation approved"
+      
+      deliverables:
+        - "Documentation files"
+        - "Examples"
+        - "Diagrams"
+    
+    api_documentation:
+      name: "Document API"
+      description: "Create API documentation"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["documentation-writer"]
+      
+      steps:
+        - name: "Extract API Info"
+          actions:
+            - "List endpoints"
+            - "Document parameters"
+            - "Document responses"
+          validation: "API inventory complete"
+        
+        - name: "Write Documentation"
+          actions:
+            - "Describe endpoints"
+            - "Add examples"
+            - "Document errors"
+          validation: "Docs complete"
+      
+      deliverables:
+        - "API documentation"
+        - "Request/response examples"
+
+  # Deployment Tasks
+  deployment:
+    prepare_deployment:
+      name: "Prepare Deployment"
+      description: "Prepare for production deployment"
+      estimated_duration: "{{DURATION}}"
+      applicable_agents: ["devops-engineer"]
+      
+      steps:
+        - name: "Build Artifacts"
+          actions:
+            - "Run build process"
+            - "Create artifacts"
+            - "Version artifacts"
+          validation: "Build successful"
+        
+        - name: "Configure Environment"
+          actions:
+            - "Set environment variables"
+            - "Configure services"
+            - "Setup monitoring"
+          validation: "Environment ready"
+        
+        - name: "Deployment Plan"
+          actions:
+            - "Create deployment steps"
+            - "Plan rollback"
+            - "Schedule deployment"
+          validation: "Plan approved"
+      
+      deliverables:
+        - "Build artifacts"
+        - "Deployment scripts"
+        - "Rollback plan"
+
+# Task Configuration
+task_config:
+  # Default settings for all tasks
+  defaults:
+    validation_required: true
+    documentation_required: true
+    testing_required: true
+    review_required: false
+  
+  # Task prioritization
+  priority_levels:
+    critical:
+      sla: "{{SLA_HOURS}}"
+      escalation: true
+      agents: ["senior-developer"]
+    
+    high:
+      sla: "{{SLA_HOURS}}"
+      escalation: false
+      agents: ["developer"]
+    
+    medium:
+      sla: "{{SLA_HOURS}}"
+      escalation: false
+      agents: ["developer", "junior-developer"]
+    
+    low:
+      sla: "{{SLA_HOURS}}"
+      escalation: false
+      agents: ["any"]
+  
+  # Task dependencies
+  dependency_rules:
+    blocking:
+      description: "Task must complete before dependent tasks"
+      handling: "queue dependent tasks"
+    
+    soft:
+      description: "Task should complete but not required"
+      handling: "warn but continue"
+  
+  # Success metrics
+  metrics:
+    completion_rate:
+      target: 95
+      measurement: "percentage"
+    
+    quality_score:
+      target: 8
+      measurement: "scale_1_10"
+    
+    time_to_complete:
+      target: "within_estimate"
+      measurement: "hours"
+
+# Custom Task Template
+custom_task_template:
+  name: "{{TASK_NAME}}"
+  description: "{{TASK_DESCRIPTION}}"
+  category: "{{CATEGORY}}"
+  estimated_duration: "{{DURATION}}"
+  applicable_agents: ["{{AGENT_1}}", "{{AGENT_2}}"]
+  
+  prerequisites:
+    - "{{PREREQUISITE_1}}"
+    - "{{PREREQUISITE_2}}"
+  
+  steps:
+    - name: "{{STEP_NAME}}"
+      actions:
+        - "{{ACTION_1}}"
+        - "{{ACTION_2}}"
+      validation: "{{VALIDATION_CRITERIA}}"
+      outputs:
+        - "{{OUTPUT_1}}"
+  
+  deliverables:
+    - "{{DELIVERABLE_1}}"
+    - "{{DELIVERABLE_2}}"
+  
+  success_criteria:
+    - "{{CRITERION_1}}"
+    - "{{CRITERION_2}}"
+  
+  rollback_procedure:
+    - "{{ROLLBACK_STEP_1}}"
+    - "{{ROLLBACK_STEP_2}}"

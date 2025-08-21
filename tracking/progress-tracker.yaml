@@ -1,0 +1,477 @@
+# Progress Tracking Configuration Template
+# Universal system for tracking agent progress across any project
+
+metadata:
+  name: "Multi-Agent Progress Tracking"
+  version: "1.0"
+  description: "Technology-agnostic progress tracking system"
+  tags: ['tracking', 'monitoring', 'progress', 'logging', 'coordination']
+
+core_directive: |
+  All agents MUST maintain detailed progress tracking with unique identifiers 
+  and structured logging throughout their execution. This ensures transparency,
+  accountability, and effective coordination across the system.
+
+# Agent Identification System
+agent_identification:
+  id_format: "AGENT_[TYPE]_[TIMESTAMP]"
+  
+  examples:
+    - "AGENT_FRONTEND_20250112_143022"
+    - "AGENT_BACKEND_20250112_143045"
+    - "AGENT_DATABASE_20250112_143100"
+    - "AGENT_{{TYPE}}_{{TIMESTAMP}}"
+  
+  generation_methods:
+    bash: |
+      AGENT_ID="AGENT_${AGENT_TYPE}_$(date +%Y%m%d_%H%M%S)"
+    
+    python: |
+      from datetime import datetime
+      agent_id = f"AGENT_{agent_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    
+    javascript: |
+      const agentId = `AGENT_${agentType}_${new Date().toISOString().replace(/[-:T.]/g, '')}`;
+  
+  requirements:
+    - "ID must be globally unique"
+    - "ID must be in all logs"
+    - "ID must be in all commits"
+    - "ID must be in file headers"
+    - "ID must be human-readable"
+
+# Progress File Structure
+progress_file:
+  filename: "progress.md"
+  location: "tracking/"
+  
+  template: |
+    # Multi-Agent Implementation Progress
+    
+    ## Summary
+    - Project: {{PROJECT_NAME}}
+    - Started: {{START_DATE}}
+    - Last Updated: {{TIMESTAMP}}
+    - Overall Progress: {{PERCENT}}%
+    
+    ## Active Agents
+    | Agent ID | Type | Status | Current Task | Started |
+    |----------|------|--------|--------------|---------|
+    | {{AGENT_ID}} | {{TYPE}} | {{STATUS}} | {{TASK}} | {{TIME}} |
+    
+    ## Completed Tasks
+    ### {{DATE}}
+    - [{{AGENT_ID}}] ✅ {{TASK_DESCRIPTION}} ({{DURATION}})
+    - [{{AGENT_ID}}] ✅ {{TASK_DESCRIPTION}} ({{DURATION}})
+    
+    ## In Progress
+    - [{{AGENT_ID}}] 🔄 {{TASK_DESCRIPTION}} ({{PERCENT}}% complete)
+    
+    ## Blocked Tasks
+    - [{{AGENT_ID}}] 🚫 {{TASK_DESCRIPTION}} - Blocked by: {{BLOCKER}}
+    
+    ## Failed Tasks
+    - [{{AGENT_ID}}] ❌ {{TASK_DESCRIPTION}} - Reason: {{FAILURE_REASON}}
+    
+    ## Statistics
+    - Total Agents Deployed: {{AGENT_COUNT}}
+    - Tasks Completed: {{COMPLETED_COUNT}}
+    - Tasks In Progress: {{IN_PROGRESS_COUNT}}
+    - Tasks Failed: {{FAILED_COUNT}}
+    - Success Rate: {{SUCCESS_RATE}}%
+    - Average Task Duration: {{AVG_DURATION}}
+    
+    ## Recent Activity
+    {{RECENT_LOG_ENTRIES}}
+
+# Logging Configuration
+logging:
+  # Log Format Templates
+  formats:
+    standard: "[{{AGENT_ID}}] [{{TIMESTAMP}}] {{LEVEL}}: {{MESSAGE}}"
+    detailed: "[{{AGENT_ID}}] [{{TIMESTAMP}}] {{LEVEL}} [{{COMPONENT}}]: {{MESSAGE}} | {{METADATA}}"
+    json: '{"agent_id": "{{AGENT_ID}}", "timestamp": "{{TIMESTAMP}}", "level": "{{LEVEL}}", "message": "{{MESSAGE}}"}'
+  
+  # Log Levels
+  levels:
+    DEBUG: "Detailed debugging information"
+    INFO: "General information"
+    STEP: "Starting new baby step"
+    VALIDATE: "Validation result"
+    COMPLETE: "Task/step completion"
+    WARNING: "Potential issue"
+    ERROR: "Error occurred"
+    CRITICAL: "Critical failure"
+  
+  # Example Log Entries
+  examples:
+    step_start: "[AGENT_UI_20250112] [14:30:25] STEP: Creating Button component"
+    validation: "[AGENT_UI_20250112] [14:30:45] VALIDATE: Component renders without errors"
+    completion: "[AGENT_UI_20250112] [14:30:50] COMPLETE: ✅ Button component created"
+    error: "[AGENT_UI_20250112] [14:31:00] ERROR: TypeScript compilation failed"
+    warning: "[AGENT_DB_20250112] [15:00:00] WARNING: Query performance below threshold"
+  
+  # Log Destinations
+  destinations:
+    - type: "file"
+      path: "tracking/agent-{{AGENT_ID}}.log"
+    - type: "console"
+      format: "colored"
+    - type: "database"
+      table: "agent_logs"
+    - type: "api"
+      endpoint: "{{LOG_API_ENDPOINT}}"
+
+# File Change Tracking
+file_tracking:
+  # Track all file operations
+  operations:
+    CREATE:
+      log_format: "[{{AGENT_ID}}] FILE_CREATE: {{FILE_PATH}}"
+      metadata: ["purpose", "size", "type"]
+    
+    MODIFY:
+      log_format: "[{{AGENT_ID}}] FILE_MODIFY: {{FILE_PATH}}"
+      metadata: ["changes", "lines_added", "lines_removed"]
+    
+    DELETE:
+      log_format: "[{{AGENT_ID}}] FILE_DELETE: {{FILE_PATH}}"
+      metadata: ["reason", "backed_up"]
+    
+    RENAME:
+      log_format: "[{{AGENT_ID}}] FILE_RENAME: {{OLD_PATH}} -> {{NEW_PATH}}"
+      metadata: ["reason"]
+    
+    MOVE:
+      log_format: "[{{AGENT_ID}}] FILE_MOVE: {{OLD_PATH}} -> {{NEW_PATH}}"
+      metadata: ["reason"]
+  
+  # Example File Log Entry
+  example: |
+    [AGENT_UI_20250112] FILE_CREATE: src/components/Button.tsx
+    - Purpose: Reusable button component
+    - Size: 2.5KB
+    - Type: TypeScript React Component
+    - Dependencies: React, styles.css
+    - Status: ✅ Complete
+
+# Task State Management
+task_tracking:
+  # Possible Task States
+  states:
+    PENDING:
+      description: "Not started"
+      icon: "⏳"
+      next_states: ["IN_PROGRESS", "CANCELLED"]
+    
+    IN_PROGRESS:
+      description: "Currently working"
+      icon: "🔄"
+      next_states: ["COMPLETED", "FAILED", "BLOCKED", "PAUSED"]
+    
+    BLOCKED:
+      description: "Waiting on dependency"
+      icon: "🚫"
+      next_states: ["IN_PROGRESS", "CANCELLED"]
+    
+    PAUSED:
+      description: "Temporarily stopped"
+      icon: "⏸️"
+      next_states: ["IN_PROGRESS", "CANCELLED"]
+    
+    COMPLETED:
+      description: "Successfully finished"
+      icon: "✅"
+      next_states: []
+    
+    FAILED:
+      description: "Failed to complete"
+      icon: "❌"
+      next_states: ["IN_PROGRESS", "CANCELLED"]
+    
+    CANCELLED:
+      description: "Cancelled by user/system"
+      icon: "🚮"
+      next_states: []
+  
+  # Task Record Template
+  task_record: |
+    Task ID: {{TASK_ID}}
+    Agent: {{AGENT_ID}}
+    Title: {{TASK_TITLE}}
+    State: {{STATE}}
+    Priority: {{PRIORITY}}
+    Started: {{START_TIME}}
+    Updated: {{LAST_UPDATE}}
+    Duration: {{DURATION}}
+    Progress: {{PERCENT}}%
+    
+    Subtasks:
+    - [{{STATUS}}] {{SUBTASK_1}}
+    - [{{STATUS}}] {{SUBTASK_2}}
+    
+    Dependencies:
+    - Depends on: {{DEPENDENCY_1}}
+    - Blocks: {{DEPENDENT_TASK_1}}
+    
+    Notes: {{NOTES}}
+
+# Integration Checkpoints
+integration_checkpoints:
+  # Required validations at integration points
+  validations:
+    - id: "imports"
+      description: "All imports/exports functional"
+      command: "{{VALIDATE_IMPORTS_CMD}}"
+    
+    - id: "ui_integration"
+      description: "UI components connected"
+      command: "{{VALIDATE_UI_CMD}}"
+    
+    - id: "api_integration"
+      description: "API endpoints accessible"
+      command: "{{VALIDATE_API_CMD}}"
+    
+    - id: "database"
+      description: "Database queries working"
+      command: "{{VALIDATE_DB_CMD}}"
+    
+    - id: "tests"
+      description: "All tests passing"
+      command: "{{RUN_TESTS_CMD}}"
+    
+    - id: "e2e"
+      description: "End-to-end flow verified"
+      command: "{{RUN_E2E_CMD}}"
+  
+  # Checkpoint Report Template
+  checkpoint_template: |
+    ## Integration Checkpoint: {{AGENT_ID}}
+    Date: {{DATE}}
+    
+    Validations:
+    - [{{STATUS}}] Imports validated
+    - [{{STATUS}}] UI connected
+    - [{{STATUS}}] API functional
+    - [{{STATUS}}] Database operational
+    - [{{STATUS}}] Tests passing
+    - [{{STATUS}}] E2E verified
+    
+    Issues Found: {{ISSUE_COUNT}}
+    Resolution: {{RESOLUTION_STATUS}}
+
+# Commit Tracking
+commit_tracking:
+  # Commit Message Format
+  format: "[{{AGENT_ID}}] {{TYPE}}: {{DESCRIPTION}}"
+  
+  # Commit Types
+  types:
+    feat: "New feature"
+    fix: "Bug fix"
+    refactor: "Code refactoring"
+    test: "Test additions/changes"
+    docs: "Documentation"
+    style: "Code style/formatting"
+    perf: "Performance improvements"
+    chore: "Maintenance tasks"
+    ci: "CI/CD changes"
+  
+  # Commit Template
+  template: |
+    [{{AGENT_ID}}] {{TYPE}}: {{SHORT_DESCRIPTION}}
+    
+    {{DETAILED_DESCRIPTION}}
+    
+    - Task: {{TASK_ID}}
+    - Status: {{TASK_STATUS}}
+    - Baby Steps Applied: Yes
+    - Tests: {{TEST_STATUS}}
+    - Documentation: Updated
+    
+    {{ADDITIONAL_NOTES}}
+
+# Monitoring Configuration
+monitoring:
+  # Real-time Monitoring
+  real_time:
+    dashboard_refresh: 5  # seconds
+    metrics_update: 10   # seconds
+    alert_check: 30      # seconds
+  
+  # Metrics to Track
+  metrics:
+    - id: "task_completion_rate"
+      type: "percentage"
+      calculation: "completed_tasks / total_tasks * 100"
+      target: 95
+    
+    - id: "average_task_duration"
+      type: "duration"
+      calculation: "sum(task_durations) / count(tasks)"
+      target: "< 2 hours"
+    
+    - id: "error_rate"
+      type: "percentage"
+      calculation: "failed_tasks / total_tasks * 100"
+      target: "< 5"
+    
+    - id: "agent_utilization"
+      type: "percentage"
+      calculation: "active_time / total_time * 100"
+      target: "> 70"
+    
+    - id: "code_quality_score"
+      type: "score"
+      calculation: "custom_quality_algorithm"
+      target: "> 8.0"
+  
+  # Alert Conditions
+  alerts:
+    - condition: "agent_idle > 10 minutes"
+      severity: "warning"
+      action: "notify"
+    
+    - condition: "error_rate > 10%"
+      severity: "error"
+      action: "escalate"
+    
+    - condition: "task_blocked > 30 minutes"
+      severity: "warning"
+      action: "investigate"
+    
+    - condition: "integration_test_failure"
+      severity: "critical"
+      action: "stop_and_fix"
+
+# Reporting Templates
+reporting:
+  # Daily Summary Report
+  daily_summary: |
+    # Daily Progress Report - {{DATE}}
+    
+    ## Executive Summary
+    - Project: {{PROJECT_NAME}}
+    - Active Agents: {{ACTIVE_COUNT}}
+    - Tasks Completed Today: {{TODAY_COMPLETED}}
+    - Overall Progress: {{OVERALL_PERCENT}}%
+    
+    ## By Agent Performance
+    | Agent | Tasks | Success Rate | Avg Duration | Issues |
+    |-------|-------|--------------|--------------|--------|
+    | {{AGENT}} | {{COUNT}} | {{RATE}}% | {{DURATION}} | {{ISSUES}} |
+    
+    ## Highlights
+    - {{HIGHLIGHT_1}}
+    - {{HIGHLIGHT_2}}
+    
+    ## Blockers & Issues
+    - {{BLOCKER_1}}
+    - {{ISSUE_1}}
+    
+    ## Tomorrow's Priorities
+    - {{PRIORITY_1}}
+    - {{PRIORITY_2}}
+  
+  # Sprint/Phase Report
+  sprint_report: |
+    # Sprint Report - {{SPRINT_NAME}}
+    
+    ## Overview
+    - Duration: {{START_DATE}} to {{END_DATE}}
+    - Total Story Points: {{TOTAL_POINTS}}
+    - Completed Points: {{COMPLETED_POINTS}}
+    - Velocity: {{VELOCITY}}
+    
+    ## Deliverables
+    {{DELIVERABLES_LIST}}
+    
+    ## Metrics
+    {{METRICS_SUMMARY}}
+    
+    ## Lessons Learned
+    {{LESSONS_LIST}}
+    
+    ## Action Items
+    {{ACTION_ITEMS}}
+
+# Automation Scripts
+automation:
+  # Progress Update Commands
+  log_commands:
+    bash: |
+      log_progress() {
+        echo "[${AGENT_ID}] $(date '+%Y-%m-%d %H:%M:%S') $1: $2" >> progress.log
+      }
+      
+      log_step() { log_progress "STEP" "$1"; }
+      log_complete() { log_progress "COMPLETE" "✅ $1"; }
+      log_error() { log_progress "ERROR" "❌ $1"; }
+    
+    python: |
+      import datetime
+      
+      def log_progress(agent_id, level, message):
+          timestamp = datetime.datetime.now().isoformat()
+          with open('progress.log', 'a') as f:
+              f.write(f"[{agent_id}] [{timestamp}] {level}: {message}\n")
+    
+    javascript: |
+      const logProgress = (agentId, level, message) => {
+        const timestamp = new Date().toISOString();
+        const log = `[${agentId}] [${timestamp}] ${level}: ${message}\n`;
+        fs.appendFileSync('progress.log', log);
+      };
+
+# Best Practices
+best_practices:
+  logging:
+    - "Log immediately, not in batches"
+    - "Include context in every log"
+    - "Use consistent formatting"
+    - "Include agent ID always"
+    - "Timestamp everything"
+  
+  tracking:
+    - "Update status in real-time"
+    - "Track dependencies explicitly"
+    - "Document failures thoroughly"
+    - "Measure everything measurable"
+    - "Review metrics regularly"
+  
+  coordination:
+    - "Communicate blockers immediately"
+    - "Update shared progress frequently"
+    - "Resolve conflicts quickly"
+    - "Share learnings with team"
+    - "Maintain audit trail"
+
+# Compliance and Enforcement
+enforcement:
+  mandatory_requirements:
+    - "Every agent MUST have unique ID"
+    - "Every action MUST be logged"
+    - "Every file change MUST be tracked"
+    - "Every task MUST have status"
+    - "Every commit MUST include agent ID"
+  
+  compliance_validation:
+    script: |
+      validate_compliance() {
+        # Check for agent ID in logs
+        if ! grep -q "$AGENT_ID" progress.log; then
+          echo "ERROR: Agent $AGENT_ID not tracking progress"
+          return 1
+        fi
+        
+        # Check for recent activity
+        last_log=$(grep "$AGENT_ID" progress.log | tail -1)
+        # Additional validation logic
+        
+        return 0
+      }
+  
+  non_compliance_response:
+    warning_after: "5 minutes without logs"
+    error_after: "10 minutes without logs"
+    termination_after: "30 minutes without logs"

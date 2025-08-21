@@ -1,0 +1,480 @@
+# Memory Bank Structure Template
+# Persistent context management for agents across sessions
+
+metadata:
+  name: "Memory Bank System"
+  version: "1.0"
+  description: "Universal template for agent memory management"
+  tags: ['memory', 'context', 'persistence', 'knowledge-base']
+
+philosophy: |
+  Agents have no persistent memory between sessions. The Memory Bank is their 
+  only link to previous work. It must be maintained with precision and clarity, 
+  as agent effectiveness depends entirely on its accuracy.
+  
+  This template is technology-agnostic and can be adapted to any project type.
+
+# Core Memory Structure
+structure:
+  hierarchy:
+    description: "Files build upon each other in a clear hierarchy"
+    visual: |
+      projectBrief.md ─────► Foundation
+           │
+           ├──► productContext.md ──► What & Why
+           │
+           ├──► techContext.md ─────► How (Technical)
+           │
+           ├──► systemPatterns.md ──► Architecture
+           │
+           ├──► activeContext.md ───► Current Work
+           │
+           └──► progress.md ────────► Status
+
+# Universal Core Files
+core_files:
+  projectBrief:
+    filename: "projectBrief.md"
+    purpose: "Foundation document defining the project"
+    required: true
+    
+    template: |
+      # Project Brief: {{PROJECT_NAME}}
+      
+      ## Overview
+      {{PROJECT_DESCRIPTION}}
+      
+      ## Core Requirements
+      - {{REQUIREMENT_1}}
+      - {{REQUIREMENT_2}}
+      - {{REQUIREMENT_3}}
+      
+      ## Goals
+      - Primary: {{PRIMARY_GOAL}}
+      - Secondary: {{SECONDARY_GOALS}}
+      
+      ## Scope
+      ### In Scope
+      - {{IN_SCOPE_ITEMS}}
+      
+      ### Out of Scope
+      - {{OUT_SCOPE_ITEMS}}
+      
+      ## Success Criteria
+      - {{SUCCESS_METRIC_1}}
+      - {{SUCCESS_METRIC_2}}
+      
+      ## Timeline
+      - Start: {{START_DATE}}
+      - Target: {{END_DATE}}
+      - Milestones:
+        - {{MILESTONE_1}}: {{DATE_1}}
+        - {{MILESTONE_2}}: {{DATE_2}}
+      
+      ## Stakeholders
+      - {{STAKEHOLDER_1}}: {{ROLE_1}}
+      - {{STAKEHOLDER_2}}: {{ROLE_2}}
+    
+    update_frequency: "Only when scope changes"
+  
+  productContext:
+    filename: "productContext.md"
+    purpose: "Why this project exists and what it should do"
+    required: true
+    
+    template: |
+      # Product Context
+      
+      ## Problem Statement
+      {{PROBLEM_DESCRIPTION}}
+      
+      ## Solution Approach
+      {{SOLUTION_DESCRIPTION}}
+      
+      ## Target Users
+      - Primary: {{PRIMARY_USERS}}
+      - Secondary: {{SECONDARY_USERS}}
+      
+      ## Use Cases
+      1. {{USE_CASE_1}}
+      2. {{USE_CASE_2}}
+      3. {{USE_CASE_3}}
+      
+      ## User Experience Goals
+      - {{UX_GOAL_1}}
+      - {{UX_GOAL_2}}
+      
+      ## Business Value
+      - {{BUSINESS_VALUE_1}}
+      - {{BUSINESS_VALUE_2}}
+      
+      ## Competitive Advantage
+      {{COMPETITIVE_ADVANTAGE}}
+      
+      ## Constraints
+      - {{CONSTRAINT_1}}
+      - {{CONSTRAINT_2}}
+    
+    update_frequency: "When product vision evolves"
+  
+  techContext:
+    filename: "techContext.md"
+    purpose: "Technical environment and setup"
+    required: true
+    
+    template: |
+      # Technical Context
+      
+      ## Technology Stack
+      - Language: {{PROGRAMMING_LANGUAGE}}
+      - Framework: {{FRAMEWORK}}
+      - Database: {{DATABASE}}
+      - Tools: {{TOOLS_LIST}}
+      
+      ## Development Environment
+      - OS: {{OPERATING_SYSTEM}}
+      - IDE: {{IDE}}
+      - Package Manager: {{PACKAGE_MANAGER}}
+      - Version Control: {{VCS}}
+      
+      ## Build & Deployment
+      - Build Command: {{BUILD_COMMAND}}
+      - Test Command: {{TEST_COMMAND}}
+      - Deploy Command: {{DEPLOY_COMMAND}}
+      - CI/CD: {{CI_CD_PLATFORM}}
+      
+      ## Dependencies
+      {{DEPENDENCIES_LIST}}
+      
+      ## Technical Constraints
+      - {{TECH_CONSTRAINT_1}}
+      - {{TECH_CONSTRAINT_2}}
+      
+      ## Integration Points
+      - {{INTEGRATION_1}}
+      - {{INTEGRATION_2}}
+      
+      ## Performance Requirements
+      - {{PERFORMANCE_REQ_1}}
+      - {{PERFORMANCE_REQ_2}}
+    
+    update_frequency: "When tech stack changes"
+  
+  systemPatterns:
+    filename: "systemPatterns.md"
+    purpose: "Architecture and design patterns"
+    required: true
+    
+    template: |
+      # System Patterns
+      
+      ## Architecture Overview
+      {{ARCHITECTURE_DESCRIPTION}}
+      
+      ## Key Design Patterns
+      - {{PATTERN_1}}: {{PATTERN_1_USE}}
+      - {{PATTERN_2}}: {{PATTERN_2_USE}}
+      
+      ## Component Structure
+      ```
+      {{COMPONENT_DIAGRAM}}
+      ```
+      
+      ## Data Flow
+      {{DATA_FLOW_DESCRIPTION}}
+      
+      ## Key Technical Decisions
+      1. {{DECISION_1}}
+         - Rationale: {{RATIONALE_1}}
+         - Trade-offs: {{TRADEOFFS_1}}
+      
+      2. {{DECISION_2}}
+         - Rationale: {{RATIONALE_2}}
+         - Trade-offs: {{TRADEOFFS_2}}
+      
+      ## Coding Conventions
+      - Naming: {{NAMING_CONVENTION}}
+      - Structure: {{CODE_STRUCTURE}}
+      - Style: {{CODE_STYLE}}
+      
+      ## Security Patterns
+      - Authentication: {{AUTH_PATTERN}}
+      - Authorization: {{AUTHZ_PATTERN}}
+      - Data Protection: {{DATA_PROTECTION}}
+    
+    update_frequency: "When architecture changes"
+  
+  activeContext:
+    filename: "activeContext.md"
+    purpose: "Current work focus and recent changes"
+    required: true
+    
+    template: |
+      # Active Context
+      
+      ## Current Sprint/Phase
+      {{CURRENT_SPRINT_DESCRIPTION}}
+      
+      ## Recent Changes (Last Session)
+      - {{RECENT_CHANGE_1}}
+      - {{RECENT_CHANGE_2}}
+      - {{RECENT_CHANGE_3}}
+      
+      ## Active Decisions
+      - **Decision**: {{DECISION}}
+        - **Rationale**: {{WHY}}
+        - **Impact**: {{IMPACT}}
+        - **Alternatives Considered**: {{ALTERNATIVES}}
+      
+      ## Current Focus Areas
+      1. {{FOCUS_AREA_1}}
+      2. {{FOCUS_AREA_2}}
+      
+      ## Next Immediate Steps
+      1. {{NEXT_STEP_1}}
+      2. {{NEXT_STEP_2}}
+      3. {{NEXT_STEP_3}}
+      
+      ## Blockers
+      - {{BLOCKER_1}}: {{BLOCKER_DESCRIPTION_1}}
+      - {{BLOCKER_2}}: {{BLOCKER_DESCRIPTION_2}}
+      
+      ## Dependencies
+      - Waiting on: {{DEPENDENCY_1}}
+      - Blocks: {{DEPENDENT_TASK_1}}
+      
+      ## Important Patterns Discovered
+      - {{PATTERN_1}}: {{PATTERN_DESCRIPTION_1}}
+      
+      ## Lessons Learned
+      - {{LESSON_1}}
+      - {{LESSON_2}}
+      
+      ## Questions for Team
+      - {{QUESTION_1}}
+      - {{QUESTION_2}}
+    
+    update_frequency: "After every work session"
+  
+  progress:
+    filename: "progress.md"
+    purpose: "Track what's complete, in progress, and remaining"
+    required: true
+    
+    template: |
+      # Progress Tracking
+      
+      ## Completed Features ✅
+      - [x] {{COMPLETED_FEATURE_1}} ({{DATE_1}})
+      - [x] {{COMPLETED_FEATURE_2}} ({{DATE_2}})
+      
+      ## In Progress 🔄
+      - [ ] {{IN_PROGRESS_1}} ({{PERCENT_1}}% complete)
+      - [ ] {{IN_PROGRESS_2}} ({{PERCENT_2}}% complete)
+      
+      ## Upcoming Tasks 📋
+      - [ ] {{UPCOMING_1}} (Priority: {{PRIORITY_1}})
+      - [ ] {{UPCOMING_2}} (Priority: {{PRIORITY_2}})
+      
+      ## Known Issues 🐛
+      - {{ISSUE_1}}: {{ISSUE_DESCRIPTION_1}}
+      - {{ISSUE_2}}: {{ISSUE_DESCRIPTION_2}}
+      
+      ## Technical Debt 💳
+      - {{DEBT_1}}: {{DEBT_DESCRIPTION_1}}
+      - {{DEBT_2}}: {{DEBT_DESCRIPTION_2}}
+      
+      ## Metrics 📊
+      - Features Complete: {{COMPLETE_COUNT}}/{{TOTAL_COUNT}}
+      - Test Coverage: {{COVERAGE_PERCENT}}%
+      - Build Status: {{BUILD_STATUS}}
+      - Performance: {{PERFORMANCE_METRIC}}
+      
+      ## Risk Register ⚠️
+      - {{RISK_1}}: {{MITIGATION_1}}
+      - {{RISK_2}}: {{MITIGATION_2}}
+      
+      ## Evolution of Decisions
+      - Original: {{ORIGINAL_APPROACH}}
+      - Current: {{CURRENT_APPROACH}}
+      - Reason for Change: {{CHANGE_REASON}}
+    
+    update_frequency: "Daily or after significant progress"
+
+# Project-Type Specific Files
+project_specific_templates:
+  web_application:
+    files:
+      - filename: "componentInventory.md"
+        purpose: "Track UI components and their usage"
+      - filename: "apiEndpoints.md"
+        purpose: "Document all API endpoints"
+      - filename: "stateManagement.md"
+        purpose: "Track application state structure"
+  
+  api_service:
+    files:
+      - filename: "endpointCatalog.md"
+        purpose: "Complete API documentation"
+      - filename: "dataModels.md"
+        purpose: "Track data structures"
+      - filename: "integrationMap.md"
+        purpose: "External service integrations"
+  
+  mobile_app:
+    files:
+      - filename: "screenFlows.md"
+        purpose: "Navigation and screen relationships"
+      - filename: "deviceCompatibility.md"
+        purpose: "Device and OS support"
+      - filename: "offlineStrategy.md"
+        purpose: "Offline functionality approach"
+  
+  data_pipeline:
+    files:
+      - filename: "dataFlow.md"
+        purpose: "Data transformation pipeline"
+      - filename: "schemaEvolution.md"
+        purpose: "Track schema changes"
+      - filename: "processingMetrics.md"
+        purpose: "Performance and throughput"
+  
+  machine_learning:
+    files:
+      - filename: "modelArchitecture.md"
+        purpose: "Model design and parameters"
+      - filename: "trainingLog.md"
+        purpose: "Training progress and metrics"
+      - filename: "datasetInfo.md"
+        purpose: "Dataset characteristics"
+
+# Agent-Specific Memory Extensions
+agent_specific_memory:
+  frontend_developer:
+    additional_files:
+      - "uiPatterns.md": "UI/UX patterns and components"
+      - "styleGuide.md": "Visual design guidelines"
+  
+  backend_developer:
+    additional_files:
+      - "apiDesign.md": "API architecture and patterns"
+      - "dataAccess.md": "Database interaction patterns"
+  
+  database_architect:
+    additional_files:
+      - "schemaDesign.md": "Database schema details"
+      - "queryOptimization.md": "Performance optimizations"
+  
+  security_auditor:
+    additional_files:
+      - "securityBaseline.md": "Security requirements"
+      - "threatModel.md": "Identified threats and mitigations"
+  
+  test_engineer:
+    additional_files:
+      - "testStrategy.md": "Testing approach and coverage"
+      - "testCases.md": "Test case documentation"
+
+# Workflows for Memory Management
+workflows:
+  initialization:
+    description: "Setting up memory bank for new project"
+    steps:
+      - "Create memory-bank directory"
+      - "Copy core file templates"
+      - "Fill in project-specific information"
+      - "Create agent-specific directories"
+      - "Initialize with current project state"
+  
+  reading_sequence:
+    description: "Optimal order for agents to read files"
+    
+    first_time:
+      - "projectBrief.md"
+      - "productContext.md"
+      - "techContext.md"
+      - "systemPatterns.md"
+      - "progress.md"
+      - "activeContext.md"
+    
+    returning:
+      - "activeContext.md"
+      - "progress.md"
+      - "Recent changes in other files"
+  
+  update_protocol:
+    description: "How to update memory files"
+    steps:
+      - "Read current content"
+      - "Identify what changed"
+      - "Update relevant sections"
+      - "Maintain consistency"
+      - "Add timestamp if significant"
+      - "Commit changes"
+
+# Best Practices
+best_practices:
+  writing:
+    - "Be specific and concrete"
+    - "Include examples when helpful"
+    - "Date important decisions"
+    - "Link related information"
+    - "Keep files focused on their purpose"
+    - "Use consistent formatting"
+  
+  maintenance:
+    - "Review all files weekly"
+    - "Archive old information"
+    - "Consolidate when files grow large"
+    - "Ensure consistency across files"
+    - "Version important changes"
+    - "Regular backups"
+  
+  collaboration:
+    - "All agents update same files"
+    - "Use clear section headers"
+    - "Mark agent-specific sections"
+    - "Timestamp significant updates"
+    - "Leave notes for other agents"
+    - "Resolve conflicts promptly"
+
+# Integration Settings
+integration:
+  storage_backend:
+    options:
+      - "filesystem": "Default - store as files"
+      - "database": "Store in database"
+      - "cloud": "Cloud storage service"
+      - "version_control": "Track in git"
+  
+  synchronization:
+    method: "{{SYNC_METHOD}}"  # file-lock, database-transaction, api
+    conflict_resolution: "{{RESOLUTION}}"  # last-write-wins, merge, manual
+  
+  backup:
+    frequency: "{{BACKUP_FREQUENCY}}"  # hourly, daily, on-change
+    retention: "{{RETENTION_DAYS}}"  # 7, 30, 90
+  
+  access_control:
+    read: "all_agents"
+    write: "authorized_agents"
+    admin: "orchestrator"
+
+# Monitoring and Alerts
+monitoring:
+  staleness_check:
+    threshold_days: 7
+    action: "alert"
+  
+  size_limits:
+    max_file_size_kb: 100
+    action: "archive_and_split"
+  
+  consistency_check:
+    frequency: "daily"
+    action: "report_inconsistencies"
+  
+  usage_tracking:
+    track_reads: true
+    track_writes: true
+    track_agents: true

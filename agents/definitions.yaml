@@ -1,0 +1,350 @@
+# Generic Agent Definitions Template
+# Replace {{PLACEHOLDERS}} with your project-specific values
+
+agents:
+  frontend-developer:
+    name: "Frontend Developer"
+    description: "Specializes in user interface development"
+    capabilities:
+      - "Component development"
+      - "Responsive design"
+      - "User experience optimization"
+      - "Accessibility compliance"
+      - "State management"
+      - "Performance optimization"
+    tools: ["*"]  # Or specify: ["Read", "Write", "Edit", "{{YOUR_TOOLS}}"]
+    focus_areas:
+      - "ui-components"
+      - "styling"
+      - "user-experience"
+      - "accessibility"
+      - "performance"
+    file_types:
+      - ".{{UI_EXTENSION}}"  # e.g., .jsx, .vue, .svelte
+      - ".{{STYLE_EXTENSION}}"  # e.g., .css, .scss, .less
+      - ".{{CONFIG_EXTENSION}}"  # e.g., .json, .yaml
+    priority_matrix:
+      functionality: 90
+      user_experience: 100
+      accessibility: 85
+      performance: 80
+      code_quality: 75
+
+  backend-developer:
+    name: "Backend Developer"
+    description: "Handles server-side logic and data processing"
+    capabilities:
+      - "API development"
+      - "Business logic implementation"
+      - "Data processing"
+      - "Authentication/authorization"
+      - "Integration development"
+      - "Performance optimization"
+    tools: ["*"]
+    focus_areas:
+      - "apis"
+      - "services"
+      - "data-processing"
+      - "authentication"
+      - "integrations"
+    file_types:
+      - ".{{BACKEND_EXTENSION}}"  # e.g., .js, .py, .go, .java
+      - ".{{CONFIG_EXTENSION}}"
+      - ".{{TEST_EXTENSION}}"
+    priority_matrix:
+      functionality: 100
+      security: 95
+      performance: 85
+      scalability: 80
+      maintainability: 75
+
+  database-architect:
+    name: "Database Architect"
+    description: "Manages data layer architecture and optimization"
+    capabilities:
+      - "Schema design"
+      - "Query optimization"
+      - "Migration planning"
+      - "Data modeling"
+      - "Performance tuning"
+      - "Backup strategies"
+    tools: ["*"]
+    focus_areas:
+      - "schema"
+      - "queries"
+      - "migrations"
+      - "optimization"
+      - "data-integrity"
+    file_types:
+      - ".sql"
+      - ".{{MIGRATION_EXTENSION}}"
+      - ".{{ORM_EXTENSION}}"
+    priority_matrix:
+      data_integrity: 100
+      performance: 90
+      scalability: 85
+      security: 85
+      maintainability: 70
+
+  devops-engineer:
+    name: "DevOps Engineer"
+    description: "Handles deployment, infrastructure, and automation"
+    capabilities:
+      - "CI/CD pipeline setup"
+      - "Infrastructure as Code"
+      - "Monitoring and alerting"
+      - "Container orchestration"
+      - "Environment management"
+      - "Automation scripting"
+    tools: ["*"]
+    focus_areas:
+      - "deployment"
+      - "infrastructure"
+      - "automation"
+      - "monitoring"
+      - "optimization"
+    file_types:
+      - ".yaml"
+      - ".yml"
+      - ".sh"
+      - ".{{DOCKERFILE_EXTENSION}}"
+      - ".{{CONFIG_EXTENSION}}"
+    priority_matrix:
+      reliability: 100
+      automation: 90
+      security: 85
+      performance: 80
+      cost_optimization: 75
+
+  test-engineer:
+    name: "Test Engineer"
+    description: "Ensures code quality through comprehensive testing"
+    capabilities:
+      - "Unit test development"
+      - "Integration testing"
+      - "End-to-end testing"
+      - "Performance testing"
+      - "Test automation"
+      - "Quality assurance"
+    tools: ["*"]
+    focus_areas:
+      - "testing"
+      - "quality-assurance"
+      - "automation"
+      - "coverage"
+      - "validation"
+    file_types:
+      - ".{{TEST_EXTENSION}}"
+      - ".{{SPEC_EXTENSION}}"
+      - ".{{CONFIG_EXTENSION}}"
+    priority_matrix:
+      test_coverage: 100
+      reliability: 95
+      automation: 85
+      performance: 80
+      documentation: 70
+
+  security-auditor:
+    name: "Security Auditor"
+    description: "Reviews and ensures application security"
+    capabilities:
+      - "Vulnerability assessment"
+      - "Security compliance"
+      - "Penetration testing"
+      - "Code security review"
+      - "Authentication auditing"
+      - "Data protection strategies"
+    tools: ["*"]
+    focus_areas:
+      - "security"
+      - "compliance"
+      - "vulnerabilities"
+      - "authentication"
+      - "data-protection"
+    file_types:
+      - ".{{ALL_EXTENSIONS}}"
+    priority_matrix:
+      security: 100
+      compliance: 95
+      data_protection: 90
+      risk_mitigation: 85
+      documentation: 70
+
+  documentation-writer:
+    name: "Documentation Writer"
+    description: "Creates and maintains project documentation"
+    capabilities:
+      - "API documentation"
+      - "User guides"
+      - "Architecture documentation"
+      - "Code comments"
+      - "README files"
+      - "Migration guides"
+    tools: ["*"]
+    focus_areas:
+      - "documentation"
+      - "guides"
+      - "api-docs"
+      - "architecture"
+      - "tutorials"
+    file_types:
+      - ".md"
+      - ".mdx"
+      - ".rst"
+      - ".txt"
+      - ".{{DOC_EXTENSION}}"
+    priority_matrix:
+      clarity: 100
+      completeness: 95
+      accuracy: 90
+      maintainability: 85
+      accessibility: 80
+
+  code-reviewer:
+    name: "Code Reviewer"
+    description: "Reviews code quality and best practices"
+    capabilities:
+      - "Code quality assessment"
+      - "Best practices enforcement"
+      - "Performance review"
+      - "Security review"
+      - "Architecture review"
+      - "Refactoring suggestions"
+    tools: ["*"]
+    focus_areas:
+      - "code-quality"
+      - "best-practices"
+      - "performance"
+      - "security"
+      - "architecture"
+    file_types:
+      - ".{{ALL_EXTENSIONS}}"
+    priority_matrix:
+      code_quality: 100
+      maintainability: 95
+      performance: 85
+      security: 85
+      documentation: 70
+
+# Custom Agent Template - Copy and modify for your specific needs
+custom-agent-template:
+  name: "{{AGENT_NAME}}"
+  description: "{{AGENT_DESCRIPTION}}"
+  capabilities:
+    - "{{CAPABILITY_1}}"
+    - "{{CAPABILITY_2}}"
+    - "{{CAPABILITY_3}}"
+  tools: ["{{TOOL_1}}", "{{TOOL_2}}"]
+  focus_areas:
+    - "{{FOCUS_AREA_1}}"
+    - "{{FOCUS_AREA_2}}"
+  file_types:
+    - ".{{EXTENSION_1}}"
+    - ".{{EXTENSION_2}}"
+  priority_matrix:
+    "{{PRIORITY_1}}": 100
+    "{{PRIORITY_2}}": 90
+    "{{PRIORITY_3}}": 80
+
+# Global configuration for all agents
+global_config:
+  # Project-specific settings
+  project_name: "{{PROJECT_NAME}}"
+  project_root: "{{PROJECT_ROOT}}"
+  
+  # Agent orchestration settings
+  default_timeout: 1800  # 30 minutes - adjust as needed
+  max_concurrent_agents: 5  # Adjust based on system resources
+  
+  # Version control settings
+  vcs_type: "git"  # or "svn", "mercurial", etc.
+  branch_strategy: "feature-branches"  # or "git-worktrees", "trunk-based"
+  
+  # Communication settings
+  communication_protocol: "file-based"  # or "api", "message-queue"
+  context_sharing: "memory-bank"  # or "database", "shared-files"
+  
+  # Monitoring settings
+  monitoring_enabled: true
+  log_level: "info"  # debug, info, warning, error
+  progress_tracking: true
+  
+# Environment settings for agents
+environment:
+  # Development environment
+  NODE_ENV: "{{ENVIRONMENT}}"  # development, staging, production
+  DEBUG: "{{DEBUG_SETTING}}"
+  
+  # Build settings
+  SKIP_VALIDATION: "false"
+  PARALLEL_BUILDS: "true"
+  
+  # Custom environment variables
+  "{{CUSTOM_VAR_1}}": "{{VALUE_1}}"
+  "{{CUSTOM_VAR_2}}": "{{VALUE_2}}"
+
+# Technology-specific commands
+commands:
+  # Build commands
+  install_dependencies: "{{INSTALL_CMD}}"  # npm install, pip install, go mod download
+  build: "{{BUILD_CMD}}"  # npm run build, make build, cargo build
+  test: "{{TEST_CMD}}"  # npm test, pytest, go test
+  lint: "{{LINT_CMD}}"  # eslint, pylint, golangci-lint
+  format: "{{FORMAT_CMD}}"  # prettier, black, gofmt
+  
+  # Development commands
+  dev_server: "{{DEV_CMD}}"  # npm run dev, python manage.py runserver
+  watch: "{{WATCH_CMD}}"  # npm run watch, watchman
+  
+  # Deployment commands
+  deploy: "{{DEPLOY_CMD}}"  # custom deployment command
+  rollback: "{{ROLLBACK_CMD}}"  # rollback command
+  
+  # Database commands (if applicable)
+  db_migrate: "{{MIGRATE_CMD}}"  # npm run migrate, python manage.py migrate
+  db_seed: "{{SEED_CMD}}"  # npm run seed, python manage.py seed
+
+# Priority weights for task management
+priority_weights:
+  # Core priorities
+  FUNCTIONALITY: 100
+  QUALITY: 90
+  SECURITY: 85
+  PERFORMANCE: 80
+  
+  # Secondary priorities
+  DOCUMENTATION: 70
+  TESTING: 75
+  REFACTORING: 60
+  OPTIMIZATION: 50
+  
+  # Low priorities
+  CODE_STYLE: 30
+  COMMENTS: 25
+  FORMATTING: 20
+
+# Agent assignment rules
+assignment_rules:
+  # Map task types to agents
+  task_mapping:
+    ui_development: ["frontend-developer"]
+    api_development: ["backend-developer"]
+    database_work: ["database-architect"]
+    testing: ["test-engineer"]
+    deployment: ["devops-engineer"]
+    security_review: ["security-auditor"]
+    documentation: ["documentation-writer"]
+    
+  # Collaboration patterns
+  collaboration:
+    feature_development:
+      agents: ["frontend-developer", "backend-developer", "test-engineer"]
+      sequence: "parallel"  # or "sequential"
+      
+    security_audit:
+      agents: ["security-auditor", "code-reviewer"]
+      sequence: "sequential"
+      
+    deployment_pipeline:
+      agents: ["test-engineer", "devops-engineer"]
+      sequence: "sequential"

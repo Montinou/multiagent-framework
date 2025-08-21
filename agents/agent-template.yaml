@@ -1,0 +1,300 @@
+# Agent Template Configuration
+# Copy this file and customize for each specialized agent in your project
+
+metadata:
+  name: "{{AGENT_NAME}}"
+  version: "1.0"
+  author: "{{YOUR_TEAM}}"
+  description: "{{AGENT_DESCRIPTION}}"
+  tags: ['{{TAG1}}', '{{TAG2}}', '{{TAG3}}']
+
+agent:
+  # Core agent definition
+  role: "{{PRIMARY_ROLE}}"
+  specialization: "{{SPECIALIZATION_AREA}}"
+  
+  # Agent capabilities
+  capabilities:
+    primary:
+      - "{{PRIMARY_CAPABILITY_1}}"
+      - "{{PRIMARY_CAPABILITY_2}}"
+      - "{{PRIMARY_CAPABILITY_3}}"
+    
+    secondary:
+      - "{{SECONDARY_CAPABILITY_1}}"
+      - "{{SECONDARY_CAPABILITY_2}}"
+    
+    constraints:
+      - "{{CONSTRAINT_1}}"  # What the agent should NOT do
+      - "{{CONSTRAINT_2}}"
+
+# Integration with Baby Steps methodology
+baby_steps:
+  enabled: true
+  max_step_size: "{{MAX_LINES_PER_CHANGE}}"  # e.g., "50"
+  validation_after_each_step: true
+  documentation_required: true
+  
+  step_checklist:
+    - "Is this the smallest meaningful change?"
+    - "Has the change been tested?"
+    - "Is the documentation updated?"
+    - "Will this integrate with existing code?"
+
+# Memory Bank configuration
+memory_bank:
+  enabled: true
+  
+  # Files this agent should always read
+  required_files:
+    - "projectBrief.md"
+    - "activeContext.md"
+    - "{{AGENT_SPECIFIC_FILE}}.md"
+  
+  # Files this agent updates
+  updates_files:
+    - "progress.md"
+    - "{{AGENT_SPECIFIC_LOG}}.md"
+  
+  # Custom memory files for this agent
+  custom_files:
+    - filename: "{{CUSTOM_FILE}}.md"
+      purpose: "{{FILE_PURPOSE}}"
+      update_frequency: "{{FREQUENCY}}"  # e.g., "after_each_task", "daily"
+
+# CLI integration settings
+cli_integration:
+  # Permission mode for this agent
+  permission_mode: "{{PERMISSION_MODE}}"  # plan, standard, acceptEdits, bypassPermissions
+  
+  # Maximum turns for autonomous operation
+  max_turns: {{MAX_TURNS}}  # e.g., 10, 20, 30
+  
+  # Tools this agent can use
+  allowed_tools:
+    - "Read"
+    - "Write"
+    - "Edit"
+    - "{{CUSTOM_TOOL}}"
+  
+  # Tools this agent cannot use
+  disallowed_tools:
+    - "{{DANGEROUS_OPERATION}}"
+  
+  # Safety settings
+  safety:
+    confirm_destructive_operations: true
+    backup_before_major_changes: true
+    test_after_changes: true
+
+# Workflow configuration
+workflow:
+  # Standard workflow for this agent
+  standard_process:
+    - phase: "Analysis"
+      duration: "{{DURATION}}"
+      actions:
+        - "Read relevant files"
+        - "Understand current state"
+        - "Identify requirements"
+      outputs:
+        - "analysis.md"
+    
+    - phase: "Planning"
+      duration: "{{DURATION}}"
+      actions:
+        - "Break down into baby steps"
+        - "Define success criteria"
+        - "Identify dependencies"
+      outputs:
+        - "plan.md"
+    
+    - phase: "Implementation"
+      duration: "{{DURATION}}"
+      actions:
+        - "Execute baby steps"
+        - "Validate each step"
+        - "Update documentation"
+      outputs:
+        - "{{OUTPUT_FILES}}"
+    
+    - phase: "Validation"
+      duration: "{{DURATION}}"
+      actions:
+        - "Run tests"
+        - "Check integration"
+        - "Verify requirements"
+      outputs:
+        - "validation-report.md"
+
+# Task-specific configurations
+tasks:
+  # Define specific task types this agent handles
+  create_component:
+    description: "Create a new {{COMPONENT_TYPE}}"
+    estimated_duration: "{{DURATION}}"
+    steps:
+      - "Create file structure"
+      - "Implement basic functionality"
+      - "Add tests"
+      - "Document usage"
+    validation:
+      - "Component renders/compiles"
+      - "Tests pass"
+      - "Documentation complete"
+  
+  fix_bug:
+    description: "Fix identified bug"
+    estimated_duration: "{{DURATION}}"
+    steps:
+      - "Reproduce issue"
+      - "Identify root cause"
+      - "Implement fix"
+      - "Add regression test"
+    validation:
+      - "Bug no longer reproducible"
+      - "No new issues introduced"
+      - "Test coverage added"
+  
+  refactor_code:
+    description: "Refactor existing code"
+    estimated_duration: "{{DURATION}}"
+    steps:
+      - "Identify refactoring targets"
+      - "Create tests if missing"
+      - "Refactor incrementally"
+      - "Verify functionality preserved"
+    validation:
+      - "All tests still pass"
+      - "Code quality improved"
+      - "Performance not degraded"
+
+# Integration with other agents
+collaboration:
+  # Agents this one frequently works with
+  partner_agents:
+    - agent: "{{PARTNER_AGENT_1}}"
+      interaction: "{{INTERACTION_TYPE}}"  # e.g., "provides_input", "validates_output"
+    
+    - agent: "{{PARTNER_AGENT_2}}"
+      interaction: "{{INTERACTION_TYPE}}"
+  
+  # Dependencies on other agents
+  dependencies:
+    requires_output_from:
+      - "{{UPSTREAM_AGENT}}"
+    
+    provides_input_to:
+      - "{{DOWNSTREAM_AGENT}}"
+  
+  # Communication patterns
+  communication:
+    update_frequency: "{{FREQUENCY}}"  # e.g., "after_each_step", "on_completion"
+    notification_events:
+      - "task_started"
+      - "blocker_encountered"
+      - "task_completed"
+
+# Quality criteria
+quality_standards:
+  code_quality:
+    - "Follows project conventions"
+    - "Properly documented"
+    - "Includes tests"
+    - "Handles errors gracefully"
+  
+  performance:
+    - "Meets performance benchmarks"
+    - "Optimized for common cases"
+    - "Resource-efficient"
+  
+  security:
+    - "No security vulnerabilities"
+    - "Follows security best practices"
+    - "Sensitive data protected"
+
+# Monitoring and metrics
+monitoring:
+  # Metrics to track
+  metrics:
+    - name: "tasks_completed"
+      type: "counter"
+    
+    - name: "average_task_duration"
+      type: "gauge"
+    
+    - name: "error_rate"
+      type: "percentage"
+    
+    - name: "code_quality_score"
+      type: "score"
+  
+  # Alerts
+  alerts:
+    - condition: "error_rate > {{THRESHOLD}}"
+      action: "notify_team"
+    
+    - condition: "task_duration > {{MAX_DURATION}}"
+      action: "escalate"
+  
+  # Reporting
+  reports:
+    daily_summary: true
+    weekly_metrics: true
+    task_completion_log: true
+
+# Error handling
+error_handling:
+  # Common error patterns and responses
+  error_patterns:
+    - pattern: "{{ERROR_PATTERN_1}}"
+      response: "{{ERROR_RESPONSE_1}}"
+      recovery: "{{RECOVERY_ACTION_1}}"
+    
+    - pattern: "{{ERROR_PATTERN_2}}"
+      response: "{{ERROR_RESPONSE_2}}"
+      recovery: "{{RECOVERY_ACTION_2}}"
+  
+  # Fallback strategies
+  fallback:
+    on_validation_failure: "rollback_changes"
+    on_test_failure: "create_bug_report"
+    on_integration_failure: "notify_team"
+  
+  # Recovery procedures
+  recovery:
+    max_retry_attempts: 3
+    retry_delay: "{{DELAY_SECONDS}}"
+    escalation_after_failures: 2
+
+# Environment-specific settings
+environments:
+  development:
+    permission_mode: "acceptEdits"
+    verbose_logging: true
+    skip_optional_validations: true
+  
+  staging:
+    permission_mode: "standard"
+    verbose_logging: false
+    skip_optional_validations: false
+  
+  production:
+    permission_mode: "plan"
+    verbose_logging: false
+    skip_optional_validations: false
+    require_approval: true
+
+# Custom configurations
+custom:
+  # Add any project-specific configurations here
+  "{{CUSTOM_KEY_1}}": "{{CUSTOM_VALUE_1}}"
+  "{{CUSTOM_KEY_2}}": "{{CUSTOM_VALUE_2}}"
+  
+  # Technology-specific settings
+  technology:
+    language: "{{PROGRAMMING_LANGUAGE}}"
+    framework: "{{FRAMEWORK}}"
+    tools:
+      - "{{TOOL_1}}"
+      - "{{TOOL_2}}"

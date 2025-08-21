@@ -1,0 +1,424 @@
+# Generic Workflow Templates
+# Adapt these workflows to your project's development process
+
+workflows:
+  # Feature Development Workflow
+  feature_development:
+    name: "Feature Development"
+    description: "Standard workflow for developing new features"
+    
+    phases:
+      - name: "Requirements Analysis"
+        duration: "{{DURATION}}"  # e.g., "30 minutes"
+        agents:
+          - type: "architect"
+          - type: "frontend-developer"
+          - type: "backend-developer"
+        activities:
+          - "Review requirements"
+          - "Identify technical constraints"
+          - "Define acceptance criteria"
+        outputs:
+          - "requirements-analysis.md"
+          - "technical-approach.md"
+      
+      - name: "Design & Planning"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "architect"
+          - type: "database-architect"
+        activities:
+          - "Create architecture diagrams"
+          - "Design data models"
+          - "Plan API contracts"
+          - "Break down into tasks"
+        outputs:
+          - "architecture-design.md"
+          - "data-model.md"
+          - "api-spec.md"
+          - "task-breakdown.md"
+      
+      - name: "Implementation"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "frontend-developer"
+          - type: "backend-developer"
+          - type: "database-architect"
+        parallel: true  # Agents work in parallel
+        activities:
+          - "Implement components"
+          - "Develop APIs"
+          - "Create database schemas"
+          - "Write unit tests"
+        outputs:
+          - "source-code"
+          - "unit-tests"
+          - "migration-scripts"
+      
+      - name: "Integration"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "frontend-developer"
+          - type: "backend-developer"
+        activities:
+          - "Connect frontend to backend"
+          - "Integrate APIs"
+          - "Test data flow"
+        outputs:
+          - "integrated-feature"
+          - "integration-tests"
+      
+      - name: "Testing"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "test-engineer"
+        activities:
+          - "Run unit tests"
+          - "Execute integration tests"
+          - "Perform E2E testing"
+          - "Test edge cases"
+        outputs:
+          - "test-results.md"
+          - "coverage-report.md"
+      
+      - name: "Review & Optimization"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "code-reviewer"
+          - type: "security-auditor"
+        activities:
+          - "Code review"
+          - "Security audit"
+          - "Performance review"
+          - "Best practices check"
+        outputs:
+          - "review-report.md"
+          - "security-assessment.md"
+      
+      - name: "Documentation"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "documentation-writer"
+        activities:
+          - "Write user documentation"
+          - "Update API docs"
+          - "Create usage examples"
+        outputs:
+          - "user-guide.md"
+          - "api-documentation.md"
+      
+      - name: "Deployment Preparation"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "devops-engineer"
+        activities:
+          - "Prepare deployment scripts"
+          - "Configure environments"
+          - "Set up monitoring"
+        outputs:
+          - "deployment-config"
+          - "monitoring-setup"
+
+  # Bug Fix Workflow
+  bug_fix:
+    name: "Bug Fix"
+    description: "Workflow for fixing reported bugs"
+    
+    phases:
+      - name: "Bug Analysis"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "developer"
+        activities:
+          - "Reproduce bug"
+          - "Identify root cause"
+          - "Assess impact"
+        outputs:
+          - "bug-analysis.md"
+      
+      - name: "Fix Implementation"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "developer"
+        activities:
+          - "Implement fix"
+          - "Add regression test"
+          - "Verify fix locally"
+        outputs:
+          - "bug-fix-code"
+          - "regression-test"
+      
+      - name: "Testing"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "test-engineer"
+        activities:
+          - "Test fix"
+          - "Check for regressions"
+          - "Validate in different scenarios"
+        outputs:
+          - "test-results.md"
+      
+      - name: "Review"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "code-reviewer"
+        activities:
+          - "Review fix"
+          - "Check for side effects"
+        outputs:
+          - "review-approval.md"
+
+  # Refactoring Workflow
+  refactoring:
+    name: "Code Refactoring"
+    description: "Workflow for refactoring existing code"
+    
+    phases:
+      - name: "Analysis"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "code-reviewer"
+          - type: "architect"
+        activities:
+          - "Identify refactoring targets"
+          - "Assess current code quality"
+          - "Define improvement goals"
+        outputs:
+          - "refactoring-plan.md"
+      
+      - name: "Test Coverage"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "test-engineer"
+        activities:
+          - "Ensure test coverage"
+          - "Add missing tests"
+          - "Create baseline metrics"
+        outputs:
+          - "test-coverage.md"
+          - "baseline-metrics.md"
+      
+      - name: "Incremental Refactoring"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "developer"
+        activities:
+          - "Refactor in small steps"
+          - "Run tests after each change"
+          - "Maintain functionality"
+        outputs:
+          - "refactored-code"
+      
+      - name: "Validation"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "test-engineer"
+        activities:
+          - "Run all tests"
+          - "Compare metrics"
+          - "Verify improvements"
+        outputs:
+          - "validation-report.md"
+
+  # Security Audit Workflow
+  security_audit:
+    name: "Security Audit"
+    description: "Comprehensive security review workflow"
+    
+    phases:
+      - name: "Vulnerability Scanning"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "security-auditor"
+        activities:
+          - "Run automated scans"
+          - "Check dependencies"
+          - "Review configurations"
+        outputs:
+          - "vulnerability-scan.md"
+      
+      - name: "Manual Review"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "security-auditor"
+        activities:
+          - "Review authentication"
+          - "Check authorization"
+          - "Audit data handling"
+          - "Review API security"
+        outputs:
+          - "security-review.md"
+      
+      - name: "Remediation Planning"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "security-auditor"
+          - type: "architect"
+        activities:
+          - "Prioritize findings"
+          - "Plan fixes"
+          - "Define timeline"
+        outputs:
+          - "remediation-plan.md"
+      
+      - name: "Implementation"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "developer"
+          - type: "security-auditor"
+        activities:
+          - "Implement security fixes"
+          - "Update configurations"
+          - "Add security tests"
+        outputs:
+          - "security-fixes"
+          - "security-tests"
+
+  # Deployment Workflow
+  deployment:
+    name: "Deployment"
+    description: "Production deployment workflow"
+    
+    phases:
+      - name: "Pre-deployment Check"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "devops-engineer"
+        activities:
+          - "Verify build"
+          - "Check dependencies"
+          - "Review configuration"
+        outputs:
+          - "pre-deployment-check.md"
+      
+      - name: "Testing"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "test-engineer"
+        activities:
+          - "Run full test suite"
+          - "Smoke tests"
+          - "Performance tests"
+        outputs:
+          - "test-report.md"
+      
+      - name: "Deployment"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "devops-engineer"
+        activities:
+          - "Deploy to staging"
+          - "Run health checks"
+          - "Deploy to production"
+        outputs:
+          - "deployment-log.md"
+      
+      - name: "Post-deployment"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "devops-engineer"
+        activities:
+          - "Monitor metrics"
+          - "Check alerts"
+          - "Validate functionality"
+        outputs:
+          - "post-deployment-report.md"
+
+  # Custom Workflow Template
+  custom_workflow:
+    name: "{{WORKFLOW_NAME}}"
+    description: "{{WORKFLOW_DESCRIPTION}}"
+    
+    phases:
+      - name: "{{PHASE_1_NAME}}"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "{{AGENT_TYPE}}"
+        parallel: false
+        activities:
+          - "{{ACTIVITY_1}}"
+          - "{{ACTIVITY_2}}"
+        outputs:
+          - "{{OUTPUT_1}}"
+        validation:
+          - "{{VALIDATION_CRITERIA}}"
+      
+      - name: "{{PHASE_2_NAME}}"
+        duration: "{{DURATION}}"
+        agents:
+          - type: "{{AGENT_TYPE}}"
+        activities:
+          - "{{ACTIVITY}}"
+        outputs:
+          - "{{OUTPUT}}"
+
+# Workflow Configuration
+workflow_config:
+  # Default settings for all workflows
+  defaults:
+    max_phase_duration: "{{MAX_DURATION}}"
+    validation_required: true
+    documentation_required: true
+    progress_tracking: true
+  
+  # Parallel execution settings
+  parallel_execution:
+    max_concurrent_phases: 3
+    max_agents_per_phase: 5
+    resource_allocation: "balanced"  # or "priority-based"
+  
+  # Error handling
+  error_handling:
+    on_phase_failure: "retry"  # or "abort", "skip", "escalate"
+    max_retries: 2
+    retry_delay: "{{DELAY_SECONDS}}"
+  
+  # Integration points
+  integrations:
+    version_control:
+      create_branch: true
+      commit_after_phase: true
+      merge_on_completion: false
+    
+    ci_cd:
+      trigger_tests: true
+      trigger_build: true
+      trigger_deployment: false
+    
+    notifications:
+      on_start: true
+      on_completion: true
+      on_failure: true
+      channels:
+        - "{{NOTIFICATION_CHANNEL}}"
+
+# Workflow Templates by Project Type
+project_templates:
+  web_application:
+    primary_workflow: "feature_development"
+    common_workflows:
+      - "bug_fix"
+      - "refactoring"
+      - "deployment"
+    
+  api_service:
+    primary_workflow: "feature_development"
+    common_workflows:
+      - "api_development"
+      - "security_audit"
+      - "deployment"
+    
+  mobile_app:
+    primary_workflow: "feature_development"
+    common_workflows:
+      - "ui_development"
+      - "performance_optimization"
+      - "release"
+    
+  data_pipeline:
+    primary_workflow: "pipeline_development"
+    common_workflows:
+      - "data_validation"
+      - "performance_tuning"
+      - "monitoring_setup"

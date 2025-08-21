@@ -1,0 +1,379 @@
+# Example Configuration: Go Microservices
+# Complete configuration for Go-based microservices architecture
+
+project:
+  name: "GoMicroservices"
+  description: "Microservices architecture with Go, gRPC, and Kubernetes"
+  tech_stack: "Go, gRPC, Protocol Buffers, PostgreSQL, Redis, Kubernetes"
+
+# Technology-specific commands
+commands:
+  # Go commands
+  mod_init: "go mod init {{MODULE_NAME}}"
+  mod_download: "go mod download"
+  mod_tidy: "go mod tidy"
+  mod_vendor: "go mod vendor"
+  
+  # Building
+  build: "go build -o bin/ ./..."
+  build_linux: "GOOS=linux GOARCH=amd64 go build -o bin/ ./..."
+  build_docker: "docker build -t {{SERVICE_NAME}}:latest ."
+  
+  # Running
+  run: "go run cmd/{{SERVICE}}/main.go"
+  run_all: "make run-all"
+  
+  # Testing
+  test: "go test ./..."
+  test_verbose: "go test -v ./..."
+  test_coverage: "go test -cover ./..."
+  test_race: "go test -race ./..."
+  test_integration: "go test -tags=integration ./..."
+  benchmark: "go test -bench=. ./..."
+  
+  # Linting and formatting
+  fmt: "go fmt ./..."
+  vet: "go vet ./..."
+  lint: "golangci-lint run"
+  staticcheck: "staticcheck ./..."
+  
+  # Protocol Buffers
+  proto_gen: "protoc --go_out=. --go-grpc_out=. proto/*.proto"
+  proto_lint: "buf lint"
+  proto_breaking: "buf breaking --against '.git#branch=main'"
+  
+  # Database
+  migrate_up: "migrate -path db/migrations -database ${DATABASE_URL} up"
+  migrate_down: "migrate -path db/migrations -database ${DATABASE_URL} down"
+  migrate_create: "migrate create -ext sql -dir db/migrations {{MIGRATION_NAME}}"
+  
+  # Docker and Kubernetes
+  docker_compose: "docker-compose up -d"
+  k8s_apply: "kubectl apply -f k8s/"
+  k8s_deploy: "skaffold dev"
+  helm_install: "helm install {{RELEASE}} ./charts/{{CHART}}"
+
+# Agent configurations for Go microservices
+agents:
+  backend-developer:
+    name: "Go Service Developer"
+    specialization: "Go microservice development"
+    capabilities:
+      - "Service implementation"
+      - "gRPC server development"
+      - "REST API with Gin/Echo"
+      - "Database integration"
+      - "Message queue integration"
+      - "Error handling and logging"
+    tools_used:
+      - "Go"
+      - "gRPC"
+      - "Protocol Buffers"
+      - "Gin/Echo framework"
+    file_patterns:
+      - "cmd/*/main.go"
+      - "internal/**/*.go"
+      - "pkg/**/*.go"
+      - "api/**/*.go"
+    validation_commands:
+      - "go build ./..."
+      - "go test ./..."
+      - "golangci-lint run"
+  
+  grpc-developer:
+    name: "gRPC API Developer"
+    specialization: "gRPC and Protocol Buffers"
+    capabilities:
+      - "Proto file design"
+      - "gRPC service implementation"
+      - "Streaming APIs"
+      - "Service mesh integration"
+      - "gRPC middleware"
+    tools_used:
+      - "Protocol Buffers"
+      - "gRPC"
+      - "grpcurl"
+      - "Buf"
+    file_patterns:
+      - "proto/**/*.proto"
+      - "api/grpc/**/*.go"
+      - "internal/grpc/**/*.go"
+    validation_commands:
+      - "buf lint"
+      - "buf breaking --against '.git#branch=main'"
+      - "protoc --go_out=. --go-grpc_out=. proto/*.proto"
+  
+  database-architect:
+    name: "Go Database Specialist"
+    specialization: "Database design and optimization for Go"
+    capabilities:
+      - "SQL migrations"
+      - "Query optimization"
+      - "Connection pooling"
+      - "Transaction management"
+      - "SQLX/GORM usage"
+    tools_used:
+      - "PostgreSQL"
+      - "Redis"
+      - "golang-migrate"
+      - "sqlx/gorm"
+    file_patterns:
+      - "db/migrations/*.sql"
+      - "internal/repository/**/*.go"
+      - "internal/database/**/*.go"
+    validation_commands:
+      - "migrate -path db/migrations -database ${DATABASE_URL} up"
+      - "go test ./internal/repository/..."
+  
+  devops-engineer:
+    name: "Kubernetes DevOps Engineer"
+    specialization: "Container orchestration and deployment"
+    capabilities:
+      - "Dockerfile optimization"
+      - "Kubernetes manifests"
+      - "Helm charts"
+      - "Service mesh configuration"
+      - "CI/CD pipelines"
+    tools_used:
+      - "Docker"
+      - "Kubernetes"
+      - "Helm"
+      - "Istio/Linkerd"
+    file_patterns:
+      - "Dockerfile*"
+      - "k8s/**/*.yaml"
+      - "charts/**/*.yaml"
+      - ".github/workflows/*.yml"
+    validation_commands:
+      - "docker build -t test:latest ."
+      - "kubectl apply --dry-run=client -f k8s/"
+      - "helm lint charts/"
+
+# Microservice-specific workflows
+workflows:
+  service_development:
+    phases:
+      - name: "API Design"
+        agents: ["grpc-developer"]
+        duration: "1 hour"
+        outputs:
+          - "Proto definitions"
+          - "API documentation"
+      
+      - name: "Service Implementation"
+        agents: ["backend-developer"]
+        duration: "3 hours"
+        outputs:
+          - "Service logic"
+          - "Business rules"
+      
+      - name: "Database Layer"
+        agents: ["database-architect"]
+        duration: "2 hours"
+        outputs:
+          - "Repository pattern"
+          - "Migrations"
+      
+      - name: "Testing"
+        agents: ["backend-developer"]
+        duration: "2 hours"
+        outputs:
+          - "Unit tests"
+          - "Integration tests"
+      
+      - name: "Containerization"
+        agents: ["devops-engineer"]
+        duration: "1 hour"
+        outputs:
+          - "Dockerfile"
+          - "K8s manifests"
+
+# Environment variables
+environment:
+  # Service configuration
+  SERVICE_NAME: "{{SERVICE}}"
+  SERVICE_PORT: "8080"
+  GRPC_PORT: "50051"
+  METRICS_PORT: "9090"
+  
+  # Database
+  DATABASE_URL: "postgres://user:password@localhost:5432/service_db?sslmode=disable"
+  REDIS_URL: "redis://localhost:6379"
+  
+  # Message queue
+  KAFKA_BROKERS: "localhost:9092"
+  NATS_URL: "nats://localhost:4222"
+  
+  # Observability
+  JAEGER_ENDPOINT: "http://localhost:14268/api/traces"
+  PROMETHEUS_ENDPOINT: "http://localhost:9090"
+  
+  # Service discovery
+  CONSUL_URL: "http://localhost:8500"
+  ETCD_ENDPOINTS: "localhost:2379"
+
+# Project structure
+structure:
+  service_layout:
+    - "cmd/              # Application entrypoints"
+    - "  service/        # Main service"
+    - "  worker/         # Background workers"
+    - "  migrate/        # Migration tool"
+    - "internal/         # Private application code"
+    - "  config/         # Configuration"
+    - "  handler/        # HTTP/gRPC handlers"
+    - "  service/        # Business logic"
+    - "  repository/     # Data access"
+    - "  middleware/     # Middleware"
+    - "pkg/              # Public libraries"
+    - "  errors/         # Error handling"
+    - "  logger/         # Logging"
+    - "  metrics/        # Metrics"
+    - "api/              # API definitions"
+    - "  grpc/           # gRPC generated code"
+    - "  openapi/        # OpenAPI specs"
+    - "proto/            # Protocol buffer definitions"
+    - "db/               # Database related"
+    - "  migrations/     # SQL migrations"
+    - "deployments/      # Deployment configurations"
+    - "  docker/         # Docker files"
+    - "  k8s/            # Kubernetes manifests"
+    - "  helm/           # Helm charts"
+    - "scripts/          # Build and utility scripts"
+    - "docs/             # Documentation"
+
+# Testing configuration
+testing:
+  unit:
+    location: "*_test.go"
+    coverage_threshold: 80
+    command: "go test ./..."
+  
+  integration:
+    tags: "integration"
+    command: "go test -tags=integration ./..."
+    dependencies:
+      - "PostgreSQL"
+      - "Redis"
+  
+  benchmark:
+    command: "go test -bench=. ./..."
+    profile: "go test -cpuprofile=cpu.prof -memprofile=mem.prof -bench=."
+  
+  e2e:
+    framework: "Ginkgo/Gomega"
+    command: "ginkgo -r e2e/"
+
+# Build configuration
+build:
+  flags:
+    production: "-ldflags='-s -w' -trimpath"
+    debug: "-gcflags='all=-N -l'"
+  
+  targets:
+    linux: "GOOS=linux GOARCH=amd64"
+    darwin: "GOOS=darwin GOARCH=amd64"
+    windows: "GOOS=windows GOARCH=amd64"
+  
+  docker:
+    base_image: "golang:1.21-alpine"
+    runtime_image: "alpine:3.18"
+    multi_stage: true
+
+# Makefile template
+makefile:
+  targets:
+    all: "build test"
+    build: "go build -o bin/ ./..."
+    test: "go test ./..."
+    run: "go run cmd/service/main.go"
+    proto: "protoc --go_out=. --go-grpc_out=. proto/*.proto"
+    docker: "docker build -t $(SERVICE):latest ."
+    deploy: "kubectl apply -f k8s/"
+    clean: "rm -rf bin/ vendor/"
+
+# CI/CD configuration
+ci_cd:
+  provider: "GitHub Actions"
+  
+  workflow:
+    - name: "Setup Go"
+      uses: "actions/setup-go@v4"
+      with:
+        go-version: "1.21"
+    
+    - name: "Cache modules"
+      uses: "actions/cache@v3"
+      with:
+        path: "~/go/pkg/mod"
+        key: "${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}"
+    
+    - name: "Download dependencies"
+      run: "go mod download"
+    
+    - name: "Run linter"
+      run: "golangci-lint run"
+    
+    - name: "Run tests"
+      run: "go test -race -coverprofile=coverage.txt ./..."
+    
+    - name: "Build"
+      run: "go build -v ./..."
+    
+    - name: "Build Docker image"
+      run: "docker build -t ${{ github.repository }}:${{ github.sha }} ."
+
+# Kubernetes configuration
+kubernetes:
+  namespace: "microservices"
+  
+  resources:
+    deployment:
+      replicas: 3
+      strategy: "RollingUpdate"
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "100m"
+        limits:
+          memory: "256Mi"
+          cpu: "500m"
+    
+    service:
+      type: "ClusterIP"
+      ports:
+        - name: "http"
+          port: 8080
+        - name: "grpc"
+          port: 50051
+        - name: "metrics"
+          port: 9090
+    
+    ingress:
+      class: "nginx"
+      tls: true
+      hosts:
+        - "api.example.com"
+
+# Development tools
+dev_tools:
+  recommended:
+    - "GoLand or VS Code with Go extension"
+    - "Postman/Insomnia for API testing"
+    - "grpcurl for gRPC testing"
+    - "k9s for Kubernetes management"
+    - "Lens for Kubernetes IDE"
+  
+  vscode_extensions:
+    - "golang.go"
+    - "zxh404.vscode-proto3"
+    - "ms-kubernetes-tools.vscode-kubernetes-tools"
+    - "ms-azuretools.vscode-docker"
+  
+  go_tools:
+    - "golang.org/x/tools/gopls"
+    - "github.com/golangci/golangci-lint"
+    - "github.com/go-delve/delve/cmd/dlv"
+    - "github.com/cosmtrek/air"  # Hot reload
+    - "github.com/golang-migrate/migrate"
+    - "github.com/grpc-ecosystem/grpc-gateway"

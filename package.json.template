@@ -1,0 +1,97 @@
+{
+  "name": "{{PROJECT_NAME}}-multiagent",
+  "version": "1.0.0",
+  "description": "Multiagent orchestration system for {{PROJECT_NAME}}",
+  "author": "{{AUTHOR}}",
+  "license": "{{LICENSE}}",
+  "private": true,
+  "scripts": {
+    "// ===== Development Commands =====": "",
+    "dev": "{{DEV_COMMAND}}",
+    "build": "{{BUILD_COMMAND}}",
+    "test": "{{TEST_COMMAND}}",
+    "lint": "{{LINT_COMMAND}}",
+    "format": "{{FORMAT_COMMAND}}",
+    
+    "// ===== Agent Orchestration Commands =====": "",
+    "agents:init": "node multiagent-framework/orchestration/orchestrator.js init",
+    "agents:deploy": "node multiagent-framework/orchestration/orchestrator.js deploy",
+    "agents:deploy:focus": "FOCUS_MODE=tasks node multiagent-framework/orchestration/orchestrator.js deploy",
+    "agents:deploy:no-lint": "SKIP_LINT=true node multiagent-framework/orchestration/orchestrator.js deploy",
+    "agents:status": "node multiagent-framework/orchestration/orchestrator.js status",
+    "agents:monitor": "node multiagent-framework/orchestration/agent-monitor.js",
+    "agents:cleanup": "node multiagent-framework/orchestration/orchestrator.js cleanup",
+    "agents:list-agents": "node multiagent-framework/orchestration/orchestrator.js list-agents",
+    "agents:create-plan": "node multiagent-framework/orchestration/orchestrator.js create-plan",
+    
+    "// ===== Agent Communication =====": "",
+    "agents:communicate": "node multiagent-framework/orchestration/agent-communication.js",
+    "agents:sync": "node multiagent-framework/orchestration/agent-communication.js sync",
+    
+    "// ===== Agent Building & Validation =====": "",
+    "agents:build": "node multiagent-framework/orchestration/agent-builder.js build",
+    "agents:validate": "node multiagent-framework/orchestration/agent-builder.js validate",
+    "agents:validate:no-lint": "SKIP_LINT=true node multiagent-framework/orchestration/agent-builder.js validate",
+    "agents:pr": "node multiagent-framework/orchestration/agent-builder.js create-pr",
+    
+    "// ===== Deployment Pipeline =====": "",
+    "deploy:deploy": "node multiagent-framework/orchestration/deployment-manager.js deploy",
+    "deploy:quick": "node multiagent-framework/orchestration/deployment-manager.js quick",
+    "deploy:validate": "node multiagent-framework/orchestration/deployment-manager.js validate",
+    "deploy:rollback": "node multiagent-framework/orchestration/deployment-manager.js rollback",
+    
+    "// ===== Worktree Management (Git Projects) =====": "",
+    "worktree:create": "node multiagent-framework/orchestration/worktree-manager.js create",
+    "worktree:list": "node multiagent-framework/orchestration/worktree-manager.js list",
+    "worktree:cleanup": "node multiagent-framework/orchestration/worktree-manager.js cleanup",
+    
+    "// ===== Memory Bank Management =====": "",
+    "memory:init": "node multiagent-framework/scripts/memory-init.js",
+    "memory:update": "node multiagent-framework/scripts/memory-update.js",
+    "memory:backup": "node multiagent-framework/scripts/memory-backup.js",
+    
+    "// ===== Progress Tracking =====": "",
+    "progress:show": "cat multiagent-framework/tracking/progress.md",
+    "progress:tail": "tail -f multiagent-framework/tracking/progress.md",
+    "progress:report": "node multiagent-framework/scripts/progress-report.js",
+    
+    "// ===== Quick Actions =====": "",
+    "agent": "npm run agents:deploy",
+    "status": "npm run agents:status",
+    "clean": "npm run agents:cleanup",
+    
+    "// ===== Setup & Configuration =====": "",
+    "setup": "node multiagent-framework/scripts/setup.js",
+    "setup:interactive": "node multiagent-framework/scripts/setup-interactive.js",
+    "config:check": "node multiagent-framework/scripts/check-config.js",
+    "config:update": "node multiagent-framework/scripts/update-config.js"
+  },
+  "dependencies": {
+    "// === Core Dependencies - Add based on your tech stack ===": "",
+    "{{DEPENDENCY_1}}": "{{VERSION_1}}",
+    "{{DEPENDENCY_2}}": "{{VERSION_2}}"
+  },
+  "devDependencies": {
+    "// === Development Dependencies ===": "",
+    "js-yaml": "^4.1.0",
+    "{{DEV_DEPENDENCY_1}}": "{{VERSION}}",
+    "{{DEV_DEPENDENCY_2}}": "{{VERSION}}"
+  },
+  "optionalDependencies": {
+    "// === Optional for enhanced features ===": "",
+    "chalk": "^5.0.0",
+    "ora": "^6.0.0",
+    "inquirer": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "multiagent": {
+    "version": "1.0.0",
+    "framework": "multiagent-framework",
+    "ai_tool": "{{AI_TOOL}}",
+    "vcs": "{{VCS_TYPE}}",
+    "configured": false
+  }
+}

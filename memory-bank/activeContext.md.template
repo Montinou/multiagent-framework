@@ -1,0 +1,158 @@
+# Active Context
+
+## Current Sprint/Phase
+**Sprint**: {{CURRENT_SPRINT}}
+**Phase**: {{CURRENT_PHASE}}
+**Focus**: {{CURRENT_FOCUS}}
+**Started**: {{SPRINT_START_DATE}}
+**Target End**: {{SPRINT_END_DATE}}
+
+## Recent Changes (Last Session)
+- {{RECENT_CHANGE_1}}
+- {{RECENT_CHANGE_2}}
+- {{RECENT_CHANGE_3}}
+- {{RECENT_CHANGE_4}}
+- {{RECENT_CHANGE_5}}
+
+## Active Decisions
+
+### Decision 1: {{DECISION_TITLE_1}}
+- **Context**: {{DECISION_CONTEXT_1}}
+- **Decision**: {{DECISION_MADE_1}}
+- **Rationale**: {{DECISION_RATIONALE_1}}
+- **Impact**: {{DECISION_IMPACT_1}}
+- **Alternatives Considered**: {{ALTERNATIVES_1}}
+- **Date**: {{DECISION_DATE_1}}
+
+### Decision 2: {{DECISION_TITLE_2}}
+- **Context**: {{DECISION_CONTEXT_2}}
+- **Decision**: {{DECISION_MADE_2}}
+- **Rationale**: {{DECISION_RATIONALE_2}}
+- **Impact**: {{DECISION_IMPACT_2}}
+- **Alternatives Considered**: {{ALTERNATIVES_2}}
+- **Date**: {{DECISION_DATE_2}}
+
+## Current Focus Areas
+
+### Primary Focus
+{{PRIMARY_FOCUS_DESCRIPTION}}
+
+### Secondary Focus Areas
+1. {{SECONDARY_FOCUS_1}}
+2. {{SECONDARY_FOCUS_2}}
+3. {{SECONDARY_FOCUS_3}}
+
+## Next Immediate Steps
+1. [ ] {{NEXT_STEP_1}}
+2. [ ] {{NEXT_STEP_2}}
+3. [ ] {{NEXT_STEP_3}}
+4. [ ] {{NEXT_STEP_4}}
+5. [ ] {{NEXT_STEP_5}}
+
+## Current Blockers
+
+### Blocker 1: {{BLOCKER_TITLE_1}}
+- **Description**: {{BLOCKER_DESC_1}}
+- **Impact**: {{BLOCKER_IMPACT_1}}
+- **Proposed Solution**: {{BLOCKER_SOLUTION_1}}
+- **Owner**: {{BLOCKER_OWNER_1}}
+- **ETA**: {{BLOCKER_ETA_1}}
+
+### Blocker 2: {{BLOCKER_TITLE_2}}
+- **Description**: {{BLOCKER_DESC_2}}
+- **Impact**: {{BLOCKER_IMPACT_2}}
+- **Proposed Solution**: {{BLOCKER_SOLUTION_2}}
+- **Owner**: {{BLOCKER_OWNER_2}}
+- **ETA**: {{BLOCKER_ETA_2}}
+
+## Dependencies
+
+### Waiting On
+- {{WAITING_ON_1}}
+- {{WAITING_ON_2}}
+- {{WAITING_ON_3}}
+
+### Blocking Others
+- {{BLOCKING_1}}
+- {{BLOCKING_2}}
+- {{BLOCKING_3}}
+
+## Important Patterns Discovered
+
+### Pattern 1: {{PATTERN_NAME_1}}
+- **Description**: {{PATTERN_DESC_1}}
+- **Usage**: {{PATTERN_USAGE_1}}
+- **Benefits**: {{PATTERN_BENEFITS_1}}
+
+### Pattern 2: {{PATTERN_NAME_2}}
+- **Description**: {{PATTERN_DESC_2}}
+- **Usage**: {{PATTERN_USAGE_2}}
+- **Benefits**: {{PATTERN_BENEFITS_2}}
+
+## Lessons Learned
+
+### Technical Lessons
+- {{TECH_LESSON_1}}
+- {{TECH_LESSON_2}}
+- {{TECH_LESSON_3}}
+
+### Process Lessons
+- {{PROCESS_LESSON_1}}
+- {{PROCESS_LESSON_2}}
+- {{PROCESS_LESSON_3}}
+
+## Questions for Team/Clarification Needed
+1. {{QUESTION_1}}
+2. {{QUESTION_2}}
+3. {{QUESTION_3}}
+4. {{QUESTION_4}}
+
+## Active Experiments
+- **Experiment 1**: {{EXPERIMENT_1}}
+  - Status: {{EXPERIMENT_STATUS_1}}
+  - Results: {{EXPERIMENT_RESULTS_1}}
+  
+- **Experiment 2**: {{EXPERIMENT_2}}
+  - Status: {{EXPERIMENT_STATUS_2}}
+  - Results: {{EXPERIMENT_RESULTS_2}}
+
+## Code Areas Currently Modified
+- {{CODE_AREA_1}}: {{MODIFICATION_1}}
+- {{CODE_AREA_2}}: {{MODIFICATION_2}}
+- {{CODE_AREA_3}}: {{MODIFICATION_3}}
+
+## Testing Status
+- **Unit Tests**: {{UNIT_TEST_STATUS}}
+- **Integration Tests**: {{INTEGRATION_TEST_STATUS}}
+- **E2E Tests**: {{E2E_TEST_STATUS}}
+- **Coverage**: {{CURRENT_COVERAGE}}%
+
+## Performance Observations
+- {{PERFORMANCE_OBS_1}}
+- {{PERFORMANCE_OBS_2}}
+- {{PERFORMANCE_OBS_3}}
+
+## Security Considerations
+- {{SECURITY_CONCERN_1}}
+- {{SECURITY_CONCERN_2}}
+- {{SECURITY_CONCERN_3}}
+
+## Technical Debt Identified
+- {{TECH_DEBT_1}}
+- {{TECH_DEBT_2}}
+- {{TECH_DEBT_3}}
+
+## Collaboration Notes
+- {{COLLAB_NOTE_1}}
+- {{COLLAB_NOTE_2}}
+- {{COLLAB_NOTE_3}}
+
+## Session End Summary
+**Duration**: {{SESSION_DURATION}}
+**Completed**: {{ITEMS_COMPLETED}}
+**Remaining**: {{ITEMS_REMAINING}}
+**Next Session Priority**: {{NEXT_PRIORITY}}
+
+---
+*Last Updated: {{LAST_UPDATE_TIMESTAMP}}*
+*This document should be updated after every work session to maintain context continuity.*

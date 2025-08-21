@@ -1,0 +1,84 @@
+# Project Brief: {{PROJECT_NAME}}
+
+## Overview
+{{PROJECT_DESCRIPTION}}
+
+## Core Requirements
+- {{REQUIREMENT_1}}
+- {{REQUIREMENT_2}}
+- {{REQUIREMENT_3}}
+- {{REQUIREMENT_4}}
+- {{REQUIREMENT_5}}
+
+## Goals
+
+### Primary Goal
+{{PRIMARY_GOAL}}
+
+### Secondary Goals
+- {{SECONDARY_GOAL_1}}
+- {{SECONDARY_GOAL_2}}
+- {{SECONDARY_GOAL_3}}
+
+## Project Scope
+
+### In Scope
+- {{IN_SCOPE_1}}
+- {{IN_SCOPE_2}}
+- {{IN_SCOPE_3}}
+- {{IN_SCOPE_4}}
+
+### Out of Scope
+- {{OUT_SCOPE_1}}
+- {{OUT_SCOPE_2}}
+- {{OUT_SCOPE_3}}
+
+## Success Criteria
+- {{SUCCESS_CRITERION_1}}
+- {{SUCCESS_CRITERION_2}}
+- {{SUCCESS_CRITERION_3}}
+- {{SUCCESS_CRITERION_4}}
+
+## Timeline
+- **Start Date**: {{START_DATE}}
+- **Target Completion**: {{END_DATE}}
+- **Duration**: {{DURATION}}
+
+### Key Milestones
+- {{MILESTONE_1}}: {{MILESTONE_DATE_1}}
+- {{MILESTONE_2}}: {{MILESTONE_DATE_2}}
+- {{MILESTONE_3}}: {{MILESTONE_DATE_3}}
+- {{MILESTONE_4}}: {{MILESTONE_DATE_4}}
+
+## Stakeholders
+- **Project Owner**: {{PROJECT_OWNER}}
+- **Technical Lead**: {{TECH_LEAD}}
+- **Key Users**: {{KEY_USERS}}
+- **Other Stakeholders**: {{OTHER_STAKEHOLDERS}}
+
+## Constraints
+- **Technical**: {{TECHNICAL_CONSTRAINTS}}
+- **Budget**: {{BUDGET_CONSTRAINTS}}
+- **Time**: {{TIME_CONSTRAINTS}}
+- **Resources**: {{RESOURCE_CONSTRAINTS}}
+
+## Risk Assessment
+- **High Risk**: {{HIGH_RISK}}
+- **Medium Risk**: {{MEDIUM_RISK}}
+- **Low Risk**: {{LOW_RISK}}
+
+## Dependencies
+- {{DEPENDENCY_1}}
+- {{DEPENDENCY_2}}
+- {{DEPENDENCY_3}}
+
+## Communication Plan
+- **Updates**: {{UPDATE_FREQUENCY}}
+- **Meetings**: {{MEETING_SCHEDULE}}
+- **Reporting**: {{REPORTING_METHOD}}
+
+## Additional Notes
+{{ADDITIONAL_NOTES}}
+
+---
+*This document defines the foundation of the project and should be updated only when fundamental scope changes occur.*

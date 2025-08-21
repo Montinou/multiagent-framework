@@ -1,0 +1,148 @@
+# Technical Context
+
+## Technology Stack
+
+### Core Technologies
+- **Primary Language**: {{PRIMARY_LANGUAGE}}
+- **Framework**: {{FRAMEWORK}}
+- **Database**: {{DATABASE}}
+- **Runtime**: {{RUNTIME}}
+
+### Frontend (if applicable)
+- **UI Framework**: {{UI_FRAMEWORK}}
+- **Styling**: {{STYLING_APPROACH}}
+- **State Management**: {{STATE_MANAGEMENT}}
+- **Build Tool**: {{BUILD_TOOL}}
+
+### Backend (if applicable)
+- **Server Framework**: {{SERVER_FRAMEWORK}}
+- **API Type**: {{API_TYPE}}
+- **Authentication**: {{AUTH_METHOD}}
+- **ORM/Query Builder**: {{ORM}}
+
+### Infrastructure
+- **Hosting**: {{HOSTING_PLATFORM}}
+- **CI/CD**: {{CI_CD_PLATFORM}}
+- **Container**: {{CONTAINER_TECH}}
+- **Orchestration**: {{ORCHESTRATION}}
+
+## Development Environment
+
+### Setup Requirements
+- **OS**: {{OPERATING_SYSTEM}}
+- **IDE/Editor**: {{RECOMMENDED_IDE}}
+- **Package Manager**: {{PACKAGE_MANAGER}}
+- **Version Control**: {{VCS}}
+
+### Local Development
+```bash
+# Install dependencies
+{{INSTALL_COMMAND}}
+
+# Run development server
+{{DEV_COMMAND}}
+
+# Run tests
+{{TEST_COMMAND}}
+
+# Build for production
+{{BUILD_COMMAND}}
+```
+
+## Project Structure
+```
+{{PROJECT_ROOT}}/
+├── {{SRC_DIRECTORY}}/       # Source code
+├── {{TEST_DIRECTORY}}/      # Test files
+├── {{CONFIG_DIRECTORY}}/    # Configuration
+├── {{DOCS_DIRECTORY}}/      # Documentation
+└── {{BUILD_DIRECTORY}}/     # Build output
+```
+
+## Key Configuration Files
+- **{{CONFIG_FILE_1}}**: {{CONFIG_PURPOSE_1}}
+- **{{CONFIG_FILE_2}}**: {{CONFIG_PURPOSE_2}}
+- **{{CONFIG_FILE_3}}**: {{CONFIG_PURPOSE_3}}
+
+## Dependencies
+
+### Production Dependencies
+- {{PROD_DEP_1}}: {{DEP_PURPOSE_1}}
+- {{PROD_DEP_2}}: {{DEP_PURPOSE_2}}
+- {{PROD_DEP_3}}: {{DEP_PURPOSE_3}}
+
+### Development Dependencies
+- {{DEV_DEP_1}}: {{DEV_PURPOSE_1}}
+- {{DEV_DEP_2}}: {{DEV_PURPOSE_2}}
+- {{DEV_DEP_3}}: {{DEV_PURPOSE_3}}
+
+## API Endpoints (if applicable)
+- **Base URL**: {{API_BASE_URL}}
+- **Authentication**: {{API_AUTH}}
+- **Rate Limiting**: {{RATE_LIMITS}}
+- **Documentation**: {{API_DOCS_URL}}
+
+## Database Schema (if applicable)
+- **Database Type**: {{DB_TYPE}}
+- **Connection String**: {{DB_CONNECTION}}
+- **Migrations**: {{MIGRATION_TOOL}}
+- **Seeding**: {{SEEDING_APPROACH}}
+
+## Security Considerations
+- **Authentication Method**: {{AUTH_METHOD}}
+- **Authorization**: {{AUTHZ_APPROACH}}
+- **Data Encryption**: {{ENCRYPTION}}
+- **Security Headers**: {{SECURITY_HEADERS}}
+
+## Performance Requirements
+- **Response Time**: {{RESPONSE_TIME}}
+- **Throughput**: {{THROUGHPUT}}
+- **Concurrent Users**: {{CONCURRENT_USERS}}
+- **Resource Limits**: {{RESOURCE_LIMITS}}
+
+## Monitoring & Logging
+- **Logging Framework**: {{LOGGING_FRAMEWORK}}
+- **Log Level**: {{LOG_LEVEL}}
+- **Monitoring Tool**: {{MONITORING_TOOL}}
+- **Error Tracking**: {{ERROR_TRACKING}}
+
+## Testing Strategy
+- **Unit Testing**: {{UNIT_TEST_FRAMEWORK}}
+- **Integration Testing**: {{INTEGRATION_TEST_APPROACH}}
+- **E2E Testing**: {{E2E_TEST_FRAMEWORK}}
+- **Coverage Target**: {{COVERAGE_TARGET}}
+
+## Deployment Process
+1. {{DEPLOY_STEP_1}}
+2. {{DEPLOY_STEP_2}}
+3. {{DEPLOY_STEP_3}}
+4. {{DEPLOY_STEP_4}}
+
+## Environment Variables
+```env
+{{ENV_VAR_1}}={{ENV_VALUE_1}}
+{{ENV_VAR_2}}={{ENV_VALUE_2}}
+{{ENV_VAR_3}}={{ENV_VALUE_3}}
+```
+
+## Technical Constraints
+- {{CONSTRAINT_1}}
+- {{CONSTRAINT_2}}
+- {{CONSTRAINT_3}}
+
+## Integration Points
+- **External Service 1**: {{SERVICE_1}}
+- **External Service 2**: {{SERVICE_2}}
+- **External Service 3**: {{SERVICE_3}}
+
+## Code Standards
+- **Style Guide**: {{STYLE_GUIDE}}
+- **Linting Rules**: {{LINTING_CONFIG}}
+- **Naming Conventions**: {{NAMING_CONVENTIONS}}
+- **Git Workflow**: {{GIT_WORKFLOW}}
+
+## Additional Technical Notes
+{{TECHNICAL_NOTES}}
+
+---
+*This document should be updated when technology stack or technical approach changes.*
